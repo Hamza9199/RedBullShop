@@ -2,7 +2,7 @@ const ruter = require('express').Router();
 const Korisnik = require('../modeli/Korisnik');
 const CryptoJS = require('crypto-js');
 const verifikacija = require('../verifikacijaTokena');
-const skipVerifikacija = require('../skipTokenVerifikacija');
+const skipVerifikacija = require('../skipVerifikacijaTokena');
 
 
 ruter.put("/:id", verifikacija , async (zahtjev, odgovor) => {
@@ -54,7 +54,7 @@ ruter.get("/korisnik/:id", async (zahtjev, odgovor) => {
 })
 
 
-ruter.get("/", verifikacija, async (zahtjev, odgovor) => {
+ruter.get("/", verifikacija,  async (zahtjev, odgovor) => {
     console.log('Korisnik:', zahtjev.korisnik);
     const query = zahtjev.query.new;
     if(zahtjev.korisnik.isAdmin){
@@ -68,7 +68,7 @@ ruter.get("/", verifikacija, async (zahtjev, odgovor) => {
         }
     }
     else{
-        odgovor.status(403).json("Niste autorizovani");
+      odgovor.status(403).json("Niste autorizovani");
     }
 });
 

@@ -12,8 +12,6 @@ const PORT = 3000;
 
 
 mongoose.connect(process.env.mongo_url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
 }).then(() => {
     console.log('MongoDB Connected');
 }).catch(err => console.error(err));
@@ -26,7 +24,6 @@ const corsOptions = {
 };
 
 
-app.use(express.static(path.join(__dirname)));
 app.use(cors(corsOptions));
 app.use(express.json());
 

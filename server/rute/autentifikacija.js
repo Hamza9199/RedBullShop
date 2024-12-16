@@ -1,6 +1,6 @@
 const express = require('express');
 const ruter = express.Router();
-const Korisnik = require('../modeli/korisnik');
+const Korisnik = require('../modeli/Korisnik');
 const CryptoJS = require("crypto-js");
 const jwt = require('jsonwebtoken');
 
