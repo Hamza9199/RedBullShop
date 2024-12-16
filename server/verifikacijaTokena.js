@@ -1,9 +1,11 @@
 const jwt = require('jsonwebtoken');
 
 const verifikacija = (zahtjev, odgovor, sljedeci) => {
-    const autHeder = zahtjev.headers.token;
+    console.log("Autorizacija header:", zahtjev.headers.authorization); 
+    const autHeder = zahtjev.headers.authorization;
     if (autHeder) {
         const token = autHeder.split(' ')[1];
+        console.log("Token:", token); 
 
         jwt.verify(token, process.env.tajna, (greska, korisnik) => {
             if (greska) {

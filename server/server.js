@@ -5,6 +5,11 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const autentifikacijaRuter = require('./rute/autentifikacija');
 const korisniciRuter = require('./rute/korisnici');
+const proizvodiRuter = require('./rute/proizvodi');
+const adreseRuter = require('./rute/adrese');
+const narudzbeRuter = require('./rute/narudzbe');
+const korpeRuter = require('./rute/korpe');
+const recenzijeRuter = require('./rute/recenzije');
 
 
 dotenv.config();
@@ -30,6 +35,11 @@ app.use(express.json());
 
 app.use('/server/autentifikacija', autentifikacijaRuter);
 app.use('/server/korisnici', korisniciRuter);
+app.use('/server/proizvodi', proizvodiRuter);
+app.use('/server/adrese', adreseRuter);
+app.use('/server/narudzbe', narudzbeRuter);
+app.use('/server/korpe', korpeRuter);
+app.use('/server/recenzije', recenzijeRuter);
 
 
 app.listen(PORT, () => {
