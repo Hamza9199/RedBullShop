@@ -1,36 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import {loginCall} from "../context/authContext/serverCallAuth";
+import {AuthContext} from "../context/authContext/AuthContext";
 import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const {dispatch} = useContext(AuthContext);
     const navigate = useNavigate();
-
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         setError('');
-
         try {
-            const response = await fetch('http://localhost:3000/server/autentifikacija/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Login failed');
+            const res = await loginCall({email, password}, dispatch);
+            if (res) {
+                navigate('/');
+            } else {
+                setError('Login neuspješan, provjerite podatke');
             }
-
-            const data = await response.json();
-            navigate('/');
-            localStorage.setItem("korisnik", JSON.stringify(data.accessToken));
-            localStorage.setItem('isAuthenticated', 'true');
+            
         } catch (err) {
-            console.error('Error:', err);
-            setError('Login failed. Please check your credentials and try again.');
+            console.log(err);
+            setError('Login neuspješan, provjerite podatke');
         }
     };
 

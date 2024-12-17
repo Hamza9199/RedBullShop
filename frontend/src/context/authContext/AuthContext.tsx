@@ -16,13 +16,13 @@ export const AuthContext = createContext<AuthContextType>({
     dispatch: () => undefined, 
 });
 
+
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
 
     useEffect(() => {
-        localStorage.setItem("korisnik", JSON.stringify(state.user));
+        localStorage.setItem("korisnik", JSON.stringify(state.user));   
         localStorage.setItem('isAuthenticated', 'true');
-
     }, [state.user]);
 
     return (
