@@ -13,7 +13,7 @@ interface Korpa {
     ukupnaCijena: number;
 }
 
-const Korpa: React.FC = () => {
+export const Korpa: React.FC = () => {
     const [korpa, setKorpa] = useState<Korpa | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -60,5 +60,3 @@ const Korpa: React.FC = () => {
         </div>
     );
 };
-
-export default Korpa;
