@@ -21,7 +21,16 @@ export const Korpa: React.FC = () => {
     useEffect(() => {
         const fetchKorpa = async () => {
             try {
-                const response = await axios.get<Korpa>('/api/korpa');
+                const korisnik = localStorage.getItem("korisnik");
+                if (!korisnik) {
+                    throw new Error("Korisnik nije pronađen u lokalnom skladištu.");
+                }
+                const token = JSON.parse(korisnik);
+                const response = await axios.get<Korpa>('http://localhost:3000/server/korpe', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
                 setKorpa(response.data);
             } catch (err) {
                 console.error(err);

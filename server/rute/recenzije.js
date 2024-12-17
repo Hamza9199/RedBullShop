@@ -31,6 +31,15 @@ ruter.post('/', verifikacija, async (zahtjev, odgovor) => {
     }
 });
 
+ruter.get('/', async (zahtjev, odgovor) => {
+    try {
+        const recenzije = await Recenzija.find();
+        odgovor.status(200).json(recenzije);
+    } catch (greska) {
+        odgovor.status(500).json(greska);
+    }
+});
+
 ruter.get('/:proizvodId', async (zahtjev, odgovor) => {
     try {
         const recenzije = await Recenzija.find({ proizvodId: zahtjev.params.proizvodId });

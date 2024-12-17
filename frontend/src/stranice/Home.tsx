@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../komponente/Header';
 import Footer from '../komponente/Footer';
+import ListaProizvoda from '../komponente/ListaProizvoda';
 
 const Home: React.FC = () => {
     return (
@@ -10,7 +11,7 @@ const Home: React.FC = () => {
                 <section>
                     <h2>Featured Products</h2>
                     <div className="products">
-                        {/* Add product components here */}
+                        <ListaProizvoda />
                     </div>
                 </section>
                 <section>

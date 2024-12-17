@@ -13,6 +13,7 @@ import { NovaAdresa } from './stranice/NovaAdresa';
 import { NovaRecenzija } from './stranice/NovaRecenzija';
 import { NoviProizvod } from './stranice/NoviProizvod';
 import { Recenzija } from './stranice/Recenzija';
+import { Kontakt } from './stranice/Kontakt';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/kontakt" element={<Kontakt />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />

@@ -11,11 +11,9 @@ ruter.post('/', verifikacija, async (zahtjev, odgovor) => {
         let korpa = await Korpa.findOne({ korisnikId: zahtjev.korisnik.id });
 
         if (korpa) {
-            // Ako korpa već postoji, ažuriraj proizvode i cijenu
             korpa.proizvodi = proizvodi;
             korpa.ukupnaCijena = ukupnaCijena;
         } else {
-            // Ako korpa ne postoji, kreiraj novu
             korpa = new Korpa({
                 korisnikId: zahtjev.korisnik.id,
                 proizvodi,

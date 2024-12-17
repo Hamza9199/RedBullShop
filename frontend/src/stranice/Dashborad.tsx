@@ -11,6 +11,7 @@ interface Korisnik {
 interface Proizvod {
     _id: string;
     naziv: string;
+    slikaURL: string;
 }
 
 interface Narudzba {
@@ -30,19 +31,31 @@ interface Adresa {
 
 const Dashboard: React.FC = () => {
     const [korisnici, setKorisnici] = useState<Korisnik[]>([]);
-    const [proizvodi, setProizvodi] = useState([]);
-    const [narudzbe, setNarudzbe] = useState([]);
-    const [recenzije, setRecenzije] = useState([]);
-    const [adrese, setAdrese] = useState([]);
+    const [proizvodi, setProizvodi] = useState<Proizvod[]>([]);
+    const [narudzbe, setNarudzbe] = useState<Narudzba[]>([]);
+    const [recenzije, setRecenzije] = useState<Recenzija[]>([]);
+    const [adrese, setAdrese] = useState<Adresa[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const korisniciRes = await axios.get('/server/korisnici');
-                const proizvodiRes = await axios.get('/server/proizvodi');
-                const narudzbeRes = await axios.get('/server/narudzbe');
-                const recenzijeRes = await axios.get('/server/recenzije');
-                const adreseRes = await axios.get('/server/adrese');
+                const korisnik = localStorage.getItem("korisnik");
+
+                if (!korisnik) {
+                    throw new Error('No token found');
+                }
+                const token = JSON.parse(korisnik);
+
+
+                const config = {
+                    headers: { Authorization: `Bearer ${token}` }
+                };
+
+                const korisniciRes = await axios.get('http://localhost:3000/server/korisnici', config);
+                const proizvodiRes = await axios.get('http://localhost:3000/server/proizvodi', config);
+                const narudzbeRes = await axios.get('http://localhost:3000/server/narudzbe', config);
+                const recenzijeRes = await axios.get('http://localhost:3000/server/recenzije', config);
+                const adreseRes = await axios.get('http://localhost:3000/server/adrese', config);
 
                 setKorisnici(korisniciRes.data);
                 setProizvodi(proizvodiRes.data);
@@ -74,7 +87,10 @@ const Dashboard: React.FC = () => {
                     <h2>Proizvodi</h2>
                     <ul>
                         {proizvodi.map((proizvod: Proizvod) => (
-                            <li key={proizvod._id}>{proizvod.naziv}</li>
+                            <div key={proizvod._id}>
+                                <li>{proizvod.naziv}</li>
+                                <img src={proizvod.slikaURL} alt={proizvod.naziv} />
+                            </div>
                         ))}
                     </ul>
                 </section>
