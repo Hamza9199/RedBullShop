@@ -14,12 +14,7 @@ const Home: React.FC = () => {
                         <ListaProizvoda />
                     </div>
                 </section>
-                <section>
-                    <h2>Latest News</h2>
-                    <div className="news">
-                        {/* Add news components here */}
-                    </div>
-                </section>
+                
             </main>
             <Footer />
         </div>
