@@ -10,9 +10,9 @@ const korpeRuter = require('./rute/korpe');
 const recenzijeRuter = require('./rute/recenzije');
 const sequelize = require('./sequelizeInstance')
 const Korisnik = require('./modeli/Korisnik')
-const {Korpa, KorpaProizvod} = require('./modeli/Korpa')
+const Korpa = require('./modeli/Korpa')
 const Proizvod = require('./modeli/Proizvod')
-const {Narudzba, NarudzbaProizvod} = require('./modeli/Narudzba')
+const Narudzba = require('./modeli/Narudzba')
 const Recenzija = require('./modeli/Recenzija')
 const Adresa = require('./modeli/Adresa')
 

@@ -6,34 +6,41 @@ const ruter = express.Router();
 // POST: Dodavanje ili ažuriranje korpe
 ruter.post('/', verifikacija, async (zahtjev, odgovor) => {
     try {
-        const { proizvodi, ukupnaCijena } = zahtjev.body;
+        const { korisnikId, ukupnaCijena, proizvodi } = zahtjev.body;
 
-        // Provjera postoji li već korpa za korisnika
-        let korpa = await Korpa.findOne({ where: { korisnikId: zahtjev.korisnik.id } });
+        let korpa = await Korpa.findOne({ where: { korisnikId: zahtjev.body.korisnikId } });
 
         if (korpa) {
             korpa.proizvodi = proizvodi;
             korpa.ukupnaCijena = ukupnaCijena;
             await korpa.save();
         } else {
-            // Ako ne postoji, kreiraj novu korpu
             korpa = await Korpa.create({
-                korisnikId: zahtjev.korisnik.id,
+                korisnikId,
+                ukupnaCijena,
                 proizvodi,
-                ukupnaCijena
             });
         }
 
         odgovor.status(200).json(korpa);
     } catch (greska) {
-        odgovor.status(500).json(greska);
+        console.error(greska); // Log the error
+        odgovor.status(500).json({ message: 'Error occurred while adding to cart', error: greska.message });
     }
 });
+
+
 
 // GET: Dohvati korpu korisnika
 ruter.get('/', verifikacija, async (zahtjev, odgovor) => {
     try {
-        const korpa = await Korpa.findOne({ where: { korisnikId: zahtjev.korisnik.id } });
+        const korisnikId = zahtjev.query.id || zahtjev.params.id; 
+
+        if (!korisnikId) {
+            return odgovor.status(400).json("Korisnik ID nije pružen.");
+        }
+
+        const korpa = await Korpa.findOne({ where: { korisnikId: korisnikId } });
 
         if (!korpa) {
             return odgovor.status(404).json("Korpa nije pronađena.");
@@ -45,10 +52,11 @@ ruter.get('/', verifikacija, async (zahtjev, odgovor) => {
     }
 });
 
+
 // PUT: Brisanje proizvoda iz korpe
 ruter.put('/obrisi-proizvod/:proizvodId', verifikacija, async (zahtjev, odgovor) => {
     try {
-        const korpa = await Korpa.findOne({ where: { korisnikId: zahtjev.korisnik.id } });
+        const korpa = await Korpa.findOne({ where: { korisnikId: zahtjev.body.id } });
 
         if (!korpa) {
             return odgovor.status(404).json("Korpa nije pronađena.");
@@ -74,7 +82,7 @@ ruter.put('/obrisi-proizvod/:proizvodId', verifikacija, async (zahtjev, odgovor)
 // DELETE: Brisanje cijele korpe
 ruter.delete('/', verifikacija, async (zahtjev, odgovor) => {
     try {
-        const korpa = await Korpa.findOne({ where: { korisnikId: zahtjev.korisnik.id } });
+        const korpa = await Korpa.findOne({ where: { korisnikId: zahtjev.body.id } });
 
         if (!korpa) {
             return odgovor.status(404).json("Korpa nije pronađena.");

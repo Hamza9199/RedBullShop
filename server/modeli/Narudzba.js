@@ -40,33 +40,18 @@ const Narudzba = sequelize.define('Narudzba', {
             },
         },
     },
+    
+    proizvodi: {
+        type: DataTypes.JSON,  
+        allowNull: false,
+        defaultValue: [],
+    }
 }, {
     timestamps: true,
     tableName: 'narudzbe',
 });
 
-const NarudzbaProizvod = sequelize.define('NarudzbaProizvod', {
-    narudzbaId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    proizvodId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    kolicina: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1,
-        validate: {
-            min: 1,
-        },
-    },
-}, {
-    timestamps: false,
-    tableName: 'narudzba_proizvodi',
-});
 
-Narudzba.hasMany(NarudzbaProizvod, { foreignKey: 'narudzbaId', onDelete: 'CASCADE' });
-NarudzbaProizvod.belongsTo(Narudzba, { foreignKey: 'narudzbaId' });
 
-module.exports = { Narudzba, NarudzbaProizvod };
+
+module.exports =  Narudzba ;

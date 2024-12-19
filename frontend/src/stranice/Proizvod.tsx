@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import Header from '../komponente/Header';
+import Footer from '../komponente/Footer';
 
 export const Proizvod: React.FC = () => {
     interface Proizvod {
@@ -25,7 +27,6 @@ export const Proizvod: React.FC = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    // Dohvati token iz localStorage
     const token = JSON.parse(localStorage.getItem('korisnik') || '{}');
     const userId = token?.id; 
     const config = token?.accessToken
@@ -35,33 +36,26 @@ export const Proizvod: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Dohvati proizvod
                 const proizvodResponse = await axios.get(`http://localhost:3000/server/proizvodi/${id}`);
                 setProizvod(proizvodResponse.data);
 
-                // Dohvati recenzije
-                const recenzijeResponse = await axios.get(`http://localhost:3000/server/recenzije/${id}/sve`);
+                const recenzijeResponse = await axios.get(`http://localhost:3000/server/recenzije/${id}/sve`, config || undefined);
                 setRecenzije(recenzijeResponse.data);
 
-                // Provjeri da li korisnik već ima recenziju
                 if (userId) {
                     const userReviewExists = recenzijeResponse.data.some(
                         (recenzija: Recenzija) => String(recenzija.korisnikId) === String(userId)
                     );
-                    
                     setHasReviewed(userReviewExists);
-                }
 
-                const korisnikovaRecenzija = recenzijeResponse.data.find(
-                    (recenzija: Recenzija) => String(recenzija.korisnikId) === String(userId)
-                );
-                
-                const ostaleRecenzije = recenzijeResponse.data.filter(
-                    (recenzija: Recenzija) => String(recenzija.korisnikId) !== String(userId)
-                );
-                
-                setRecenzije(korisnikovaRecenzija ? [korisnikovaRecenzija, ...ostaleRecenzije] : recenzijeResponse.data);
-                
+                    const korisnikovaRecenzija = recenzijeResponse.data.find(
+                        (recenzija: Recenzija) => String(recenzija.korisnikId) === String(userId)
+                    );
+                    const ostaleRecenzije = recenzijeResponse.data.filter(
+                        (recenzija: Recenzija) => String(recenzija.korisnikId) !== String(userId)
+                    );
+                    setRecenzije(korisnikovaRecenzija ? [korisnikovaRecenzija, ...ostaleRecenzije] : recenzijeResponse.data);
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {
@@ -78,12 +72,47 @@ export const Proizvod: React.FC = () => {
                 console.error('Authorization token is missing');
                 return;
             }
-
+    
+            const response = await axios.get(
+                'http://localhost:3000/server/korpe',  
+                {
+                    headers: { Authorization: `Bearer ${token.accessToken}` },
+                    params: { id: token.id }  
+                }
+            );
+    
+            let proizvodi = [];
+            if (response.data) {
+                proizvodi = [...response.data.proizvodi];
+                const existingProduct = proizvodi.find(
+                    (product: { proizvodId: number; kolicina: number; naziv?: string; cijena?: number }) => product.proizvodId === Number(id)
+                );
+                
+                if (existingProduct) {
+                    existingProduct.kolicina += 1;
+                } else {
+                    proizvodi.push({
+                        proizvodId: Number(id),
+                        kolicina: 1,
+                        naziv: proizvod?.naziv,
+                        cijena: proizvod?.cijena,
+                    });
+                }
+            } else {
+                proizvodi.push({
+                    proizvodId: Number(id),
+                    kolicina: 1,
+                    naziv: proizvod?.naziv,
+                    cijena: proizvod?.cijena,
+                });
+            }
+    
             await axios.post(
                 'http://localhost:3000/server/korpe',
                 {
-                    proizvodi: [{ proizvodId: id, kolicina: 1 }],
-                    ukupnaCijena: proizvod ? proizvod.cijena : 0,
+                    korisnikId: parseInt(userId),
+                    ukupnaCijena: proizvodi.reduce((total: number, product: { cijena: number; kolicina: number }) => total + product.cijena * product.kolicina, 0),
+                    proizvodi: proizvodi,
                 },
                 config
             );
@@ -92,12 +121,16 @@ export const Proizvod: React.FC = () => {
             console.error('Error adding to cart:', error);
         }
     };
+    
+    
 
     if (isLoading) {
         return <p>Učitavanje...</p>;
     }
 
     return (
+        <>
+        <Header />
         <div>
             {proizvod && (
                 <>
@@ -120,7 +153,7 @@ export const Proizvod: React.FC = () => {
                     ) : (
                         <p>Još uvijek nema recenzija.</p>
                     )}
-                    {hasReviewed  ? (
+                    {hasReviewed ? (
                         <button onClick={() => navigate(`/update-recenzija/${id}`)}>
                             Ažuriraj Recenziju
                         </button>
@@ -130,5 +163,7 @@ export const Proizvod: React.FC = () => {
                 </>
             )}
         </div>
+        <Footer />
+        </>
     );
 };

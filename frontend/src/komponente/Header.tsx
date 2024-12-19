@@ -17,6 +17,7 @@ const Header: React.FC = () => {
                     <li><a href="/kontakt">Contact</a></li>
                     <li><a href="/login">Login</a></li>
                     <li><a href={`/korisnik/${token.id}`}>Profil</a></li>
+                    <li><a href="/korpa">Korpa</a></li>
                 </ul>
             </nav>
         </header>
