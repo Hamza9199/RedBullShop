@@ -1,31 +1,38 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../sequelizeInstance'); 
 
-const KorisnikSchema = new mongoose.Schema({
+const Korisnik = sequelize.define('Korisnik', {
     username: {
-        type: String,
-        required: true,
-        min: 6,
-        max: 255,
-        unique:true
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        unique: true,
+        validate: {
+            len: [2, 255],
+        },
     },
     email: {
-        type: String,
-        required: true,
-        max: 255,
-        min: 6,
-        unique:true
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        unique: true,
+        validate: {
+            len: [6, 255],
+            isEmail: true,
+        },
     },
     password: {
-        type: String,
-        required: true,
-        max: 1024,
-        min: 6
+        type: DataTypes.STRING(1024),
+        allowNull: false,
+        validate: {
+            len: [6, 1024],
+        },
     },
     isAdmin: {
-        type: Boolean,
-        default: false
-    }
-}, {timestamps: true});
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
+}, {
+    timestamps: true,
+    tableName: 'korisnici',
+});
 
-
-module.exports = mongoose.models.Korisnik || mongoose.model('Korisnik', KorisnikSchema);
+module.exports = Korisnik;

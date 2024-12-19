@@ -3,9 +3,9 @@ import axios from 'axios';
 
 interface Product {
     id: number;
-    name: string;
-    price: number;
-    imageUrl: string;
+    naziv: string;
+    cijena: number;
+    slikaURL: string;
 }
 
 const ListaProizvoda: React.FC = () => {
@@ -16,7 +16,7 @@ const ListaProizvoda: React.FC = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('https://api.example.com/products');
+                const response = await axios.get('http://localhost:3000/server/proizvodi');
                 setProducts(response.data);
             } catch (err) {
                 console.error(err);
@@ -41,9 +41,9 @@ const ListaProizvoda: React.FC = () => {
         <div className="product-list">
             {products.map(product => (
                 <div key={product.id} className="product-item">
-                    <img src={product.imageUrl} alt={product.name} />
-                    <h3>{product.name}</h3>
-                    <p>${product.price.toFixed(2)}</p>
+                    <img src={product.slikaURL} alt={product.naziv} />
+                    <h3>{product.naziv}</h3>
+                    <p>${product.cijena.toFixed(2)}</p>
                 </div>
             ))}
         </div>

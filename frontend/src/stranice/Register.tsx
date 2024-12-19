@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,26 +13,19 @@ const Register: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         setError('');
-
+    
         try {
-            const response = await fetch('http://localhost:3000/server/autentifikacija/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, email, password }),
+            const response = await axios.post('http://localhost:3000/server/autentifikacija/registracija', {
+                username,
+                email,
+                password
             });
-
-            if (!response.ok) {
-                throw new Error('Registration failed');
-            }
-
-            const data = await response.json();
-            console.log('Registration successful:', data);
+    
+            console.log('Registration successful:', response.data);
             navigate('/login');
         } catch (err) {
             console.error('Error:', err);
-            setError('Registration failed. Please check your details and try again.');
+            setError('Registracija nije uspjela, provjeri podatke.');
         }
     };
 

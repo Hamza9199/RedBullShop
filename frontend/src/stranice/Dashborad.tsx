@@ -13,10 +13,10 @@ interface Proizvod {
     naziv: string;
     slikaURL: string;
 }
-
+/*
 interface Narudzba {
     _id: string;
-}
+}*/
 
 interface Recenzija {
     _id: string;
@@ -32,34 +32,34 @@ interface Adresa {
 const Dashboard: React.FC = () => {
     const [korisnici, setKorisnici] = useState<Korisnik[]>([]);
     const [proizvodi, setProizvodi] = useState<Proizvod[]>([]);
-    const [narudzbe, setNarudzbe] = useState<Narudzba[]>([]);
+   // const [narudzbe, setNarudzbe] = useState<Narudzba[]>([]);
     const [recenzije, setRecenzije] = useState<Recenzija[]>([]);
     const [adrese, setAdrese] = useState<Adresa[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const korisnik = localStorage.getItem("korisnik");
+                const token = JSON.parse(localStorage.getItem("korisnik") || '{}');
 
-                if (!korisnik) {
+                console.log('Token:', token.accessToken);
+                if (!token) {
                     throw new Error('No token found');
                 }
-                const token = JSON.parse(korisnik);
 
 
                 const config = {
-                    headers: { Authorization: `Bearer ${token}` }
+                    headers: { Authorization: `Bearer ${token.accessToken}` }
                 };
 
                 const korisniciRes = await axios.get('http://localhost:3000/server/korisnici', config);
                 const proizvodiRes = await axios.get('http://localhost:3000/server/proizvodi', config);
-                const narudzbeRes = await axios.get('http://localhost:3000/server/narudzbe', config);
+                //const narudzbeRes = await axios.get('http://localhost:3000/server/narudzbe', config);
                 const recenzijeRes = await axios.get('http://localhost:3000/server/recenzije', config);
                 const adreseRes = await axios.get('http://localhost:3000/server/adrese', config);
 
                 setKorisnici(korisniciRes.data);
                 setProizvodi(proizvodiRes.data);
-                setNarudzbe(narudzbeRes.data);
+              //  setNarudzbe(narudzbeRes.data);
                 setRecenzije(recenzijeRes.data);
                 setAdrese(adreseRes.data);
             } catch (error) {
@@ -97,9 +97,7 @@ const Dashboard: React.FC = () => {
                 <section>
                     <h2>Narudžbe</h2>
                     <ul>
-                        {narudzbe.map((narudzba: Narudzba) => (
-                            <li key={narudzba._id}>{narudzba._id}</li>
-                        ))}
+                       
                     </ul>
                 </section>
                 <section>

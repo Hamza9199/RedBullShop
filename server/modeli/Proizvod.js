@@ -1,37 +1,46 @@
+const { DataTypes } = require('sequelize');
+const sequelize = require('../sequelizeInstance'); 
 
-const mongoose = require('mongoose');
-
-const ProizvodSchema = new mongoose.Schema({
+const Proizvod = sequelize.define('Proizvod', {
     naziv: {
-        type: String,
-        required: true,
-        min: 6,
-        max: 255,
-        
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        validate: {
+            len: [2, 255],
+        },
     },
     opis: {
-        type: String,
-        max: 255,
-        min: 6,
-        default: "Nema opisa"
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        defaultValue: "Nema opisa",
+        validate: {
+            len: [2, 255],
+        },
     },
     kategorija: {
-        type: String,
-        required: true,
-        max: 1024,
-        min: 6
+        type: DataTypes.STRING(1024),
+        allowNull: false,
+        validate: {
+            len: [2, 1024],
+        },
     },
     cijena: {
-        type: Number,
-        required: true,
-        min: 0
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        validate: {
+            min: 0,
+        },
     },
     slikaURL: {
-        type: String,
-        required: false,
-        min: 6
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+            len: [6, 255],
+        },
     },
-}, {timestamps: true});
+}, {
+    timestamps: true,
+    tableName: 'proizvodi',
+});
 
-
-module.exports = mongoose.models.Proizvod || mongoose.model('Proizvod', ProizvodSchema);
+module.exports = Proizvod;

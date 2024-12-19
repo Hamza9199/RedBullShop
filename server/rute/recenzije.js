@@ -1,59 +1,71 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const Recenzija = require('../modeli/Recenzija');
+const Recenzija = require('../modeli/Recenzija'); // Sequelize model
 const verifikacija = require('../verifikacijaTokena');
 const ruter = express.Router();
 
+// POST: Kreiranje nove recenzije
 ruter.post('/', verifikacija, async (zahtjev, odgovor) => {
     try {
         const { proizvodId, ocjena, komentar } = zahtjev.body;
 
+        // Provjera da li korisnik već ima recenziju za proizvod
         const postojecaRecenzija = await Recenzija.findOne({
-            korisnikId: zahtjev.korisnik.id,
-            proizvodId
+            where: {
+                korisnikId: zahtjev.korisnik.id,
+                proizvodId
+            }
         });
 
         if (postojecaRecenzija) {
             return odgovor.status(400).json("Već ste ostavili recenziju za ovaj proizvod.");
         }
 
-        const novaRecenzija = new Recenzija({
+        // Kreiranje nove recenzije
+        const novaRecenzija = await Recenzija.create({
             korisnikId: zahtjev.korisnik.id,
             proizvodId,
             ocjena,
             komentar
         });
 
-        const sacuvanaRecenzija = await novaRecenzija.save();
-        odgovor.status(201).json(sacuvanaRecenzija);
+        odgovor.status(201).json(novaRecenzija);
     } catch (greska) {
         odgovor.status(500).json(greska);
     }
 });
 
+// GET: Dohvati sve recenzije
 ruter.get('/', async (zahtjev, odgovor) => {
     try {
-        const recenzije = await Recenzija.find();
+        const recenzije = await Recenzija.findAll();
         odgovor.status(200).json(recenzije);
     } catch (greska) {
         odgovor.status(500).json(greska);
     }
 });
 
+// GET: Dohvati recenzije za specifičan proizvod
 ruter.get('/:proizvodId', async (zahtjev, odgovor) => {
     try {
-        const recenzije = await Recenzija.find({ proizvodId: zahtjev.params.proizvodId });
+        const recenzije = await Recenzija.findAll({
+            where: {
+                proizvodId: zahtjev.params.proizvodId
+            }
+        });
         odgovor.status(200).json(recenzije);
     } catch (greska) {
         odgovor.status(500).json(greska);
     }
 });
 
+// GET: Dohvati recenziju korisnika za specifičan proizvod
 ruter.get('/:proizvodId/moj', verifikacija, async (zahtjev, odgovor) => {
     try {
         const recenzija = await Recenzija.findOne({
-            proizvodId: zahtjev.params.proizvodId,
-            korisnikId: zahtjev.korisnik.id
+            where: {
+                proizvodId: zahtjev.params.proizvodId,
+                korisnikId: zahtjev.korisnik.id
+            }
         });
 
         if (!recenzija) {
@@ -66,37 +78,47 @@ ruter.get('/:proizvodId/moj', verifikacija, async (zahtjev, odgovor) => {
     }
 });
 
+// PUT: Ažuriranje recenzije
 ruter.put('/:id', verifikacija, async (zahtjev, odgovor) => {
     try {
         const { ocjena, komentar } = zahtjev.body;
 
-        const azuriranaRecenzija = await Recenzija.findOneAndUpdate(
-            { _id: zahtjev.params.id, korisnikId: zahtjev.korisnik.id },
-            { ocjena, komentar },
-            { new: true }
-        );
+        const azuriranaRecenzija = await Recenzija.findOne({
+            where: {
+                id: zahtjev.params.id,
+                korisnikId: zahtjev.korisnik.id
+            }
+        });
 
         if (!azuriranaRecenzija) {
             return odgovor.status(404).json("Recenzija nije pronađena.");
         }
 
+        azuriranaRecenzija.ocjena = ocjena;
+        azuriranaRecenzija.komentar = komentar;
+
+        await azuriranaRecenzija.save();
         odgovor.status(200).json(azuriranaRecenzija);
     } catch (greska) {
         odgovor.status(500).json(greska);
     }
 });
 
+// DELETE: Brisanje recenzije
 ruter.delete('/:id', verifikacija, async (zahtjev, odgovor) => {
     try {
-        const obrisanaRecenzija = await Recenzija.findOneAndDelete({
-            _id: zahtjev.params.id,
-            korisnikId: zahtjev.korisnik.id
+        const obrisanaRecenzija = await Recenzija.findOne({
+            where: {
+                id: zahtjev.params.id,
+                korisnikId: zahtjev.korisnik.id
+            }
         });
 
         if (!obrisanaRecenzija) {
             return odgovor.status(404).json("Recenzija nije pronađena.");
         }
 
+        await obrisanaRecenzija.destroy();
         odgovor.status(200).json("Recenzija je uspješno obrisana.");
     } catch (greska) {
         odgovor.status(500).json(greska);

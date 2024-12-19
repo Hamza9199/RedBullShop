@@ -29,6 +29,7 @@ function App() {
           <Route path="/nova-adresa" element={<ProtectedRoute element={<NovaAdresa />} />} />
           <Route path="/nova-recenzija" element={<ProtectedRoute element={<NovaRecenzija />} />} />
           <Route path="/novi-proizvod" element={<ProtectedRoute element={<NoviProizvod />} />} />
+          <Route path="/update-proizvod/:id" element={<ProtectedRoute element={<NoviProizvod />} />} />
           <Route path="/recenzija/:id" element={<ProtectedRoute element={<Recenzija />} />} />
           <Route path="/korisnik/:id" element={<ProtectedRoute element={<Profil />} />} />
           <Route path="/proizvod/:id" element={<ProtectedRoute element={<Proizvod />} />} />

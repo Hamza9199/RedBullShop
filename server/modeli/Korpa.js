@@ -1,28 +1,46 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../sequelizeInstance')
 
-const KorpaSchema = new mongoose.Schema({
+const Korpa = sequelize.define('Korpa', {
     korisnikId: {
-        type: String,
-        required: true
+        type: DataTypes.INTEGER,
+        allowNull: false,
     },
-    proizvodi: [
-        {
-            proizvodId: {
-                type: String,
-                required: true
-            },
-            kolicina: {
-                type: Number,
-                default: 1,
-                min: 1
-            }
-        }
-    ],
     ukupnaCijena: {
-        type: Number,
-        required: true,
-        min: 0
-    }
-}, {timestamps: true});
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        validate: {
+            min: 0,
+        },
+    },
+}, {
+    timestamps: true,
+    tableName: 'korpe',
+});
 
-module.exports = mongoose.models.Korpa || mongoose.model('Korpa', KorpaSchema);
+const KorpaProizvod = sequelize.define('KorpaProizvod', {
+    korpaId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    proizvodId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    kolicina: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1,
+        validate: {
+            min: 1,
+        },
+    },
+}, {
+    timestamps: false,
+    tableName: 'korpa_proizvodi',
+});
+
+Korpa.hasMany(KorpaProizvod, { foreignKey: 'korpaId', onDelete: 'CASCADE' });
+KorpaProizvod.belongsTo(Korpa, { foreignKey: 'korpaId' });
+
+module.exports = { Korpa, KorpaProizvod };

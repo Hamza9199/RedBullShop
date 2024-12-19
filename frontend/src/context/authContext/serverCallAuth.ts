@@ -14,9 +14,11 @@ export const loginCall = async (userCredentials: UserCredentials, dispatch: Disp
         const res = await axios.post("http://localhost:3000/server/autentifikacija/login", userCredentials);
         console.log("Login response:", res.data);
 
-        if (res.data.isAdmin) {
+        if (res.data && res.data.accessToken) {  
             dispatch(loginSuccess(res.data)); 
             return true;
+        } else {
+            throw new Error('Access token not found');
         }
     } catch (err) {
         const error = err as AxiosError;

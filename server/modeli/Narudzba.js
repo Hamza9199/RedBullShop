@@ -1,56 +1,72 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../sequelizeInstance'); 
 
-const NarudzbaSchema = new mongoose.Schema({
+const Narudzba = sequelize.define('Narudzba', {
     korisnikId: {
-        type: String,
-        required: true
+        type: DataTypes.INTEGER,
+        allowNull: false,
     },
-    proizvodi: [
-        {
-            proizvodId: {
-                type: String,
-                required: true
-            },
-            kolicina: {
-                type: Number,
-                default: 1,
-                min: 1
-            }
-        }
-    ],
-    adresa: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Adresa',
-        required: true
+    adresaId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
     },
     ukupnaCijena: {
-        type: Number,
-        required: true,
-        min: 0
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        validate: {
+            min: 0,
+        },
     },
     statusNarudzbe: {
-        type: String,
-        enum: ['Na čekanju', 'Obrađuje se', 'Isporučeno', 'Otkazano'],
-        default: 'Na čekanju'
+        type: DataTypes.ENUM('Na čekanju', 'Obrađuje se', 'Isporučeno', 'Otkazano'),
+        defaultValue: 'Na čekanju',
     },
-    placanje: {
-        metoda: {
-            type: String,
-            enum: ['Kartica', 'PayPal', 'Pouzećem'],
-            required: true
+    placanjeMetoda: {
+        type: DataTypes.ENUM('Kartica', 'PayPal', 'Pouzećem'),
+        allowNull: false,
+    },
+    placanjeStatus: {
+        type: DataTypes.ENUM('Čeka se', 'Uspješno', 'Neuspješno'),
+        defaultValue: 'Čeka se',
+    },
+    transakcijskiId: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+            isValid(value) {
+                if (this.placanjeMetoda !== 'Pouzećem' && !value) {
+                    throw new Error('Transakcijski ID je obavezan za metode koje nisu Pouzećem');
+                }
+            },
         },
-        status: {
-            type: String,
-            enum: ['Čeka se', 'Uspješno', 'Neuspješno'],
-            default: 'Čeka se'
-        },
-        transakcijskiId: {
-            type: String,
-            required: function () {
-                return this.placanje.metoda !== 'Pouzećem';
-            }
-        }
-    }
-}, {timestamps: true});
+    },
+}, {
+    timestamps: true,
+    tableName: 'narudzbe',
+});
 
-module.exports = mongoose.models.Narudzba || mongoose.model('Narudzba', NarudzbaSchema);
+const NarudzbaProizvod = sequelize.define('NarudzbaProizvod', {
+    narudzbaId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    proizvodId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    kolicina: {
+        type: DataTypes.INTEGER,
+        defaultValue: 1,
+        validate: {
+            min: 1,
+        },
+    },
+}, {
+    timestamps: false,
+    tableName: 'narudzba_proizvodi',
+});
+
+Narudzba.hasMany(NarudzbaProizvod, { foreignKey: 'narudzbaId', onDelete: 'CASCADE' });
+NarudzbaProizvod.belongsTo(Narudzba, { foreignKey: 'narudzbaId' });
+
+module.exports = { Narudzba, NarudzbaProizvod };

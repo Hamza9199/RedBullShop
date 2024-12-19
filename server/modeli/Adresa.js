@@ -1,30 +1,34 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../sequelizeInstance')
+const Korisnik = require('./Korisnik')
 
-const AdresaSchema = new mongoose.Schema({
+const Adresa = sequelize.define('Adresa', {
     korisnikId: {
-        type: String,
-        required: true
+        type: DataTypes.INTEGER,
+        allowNull: false,
     },
     ulica: {
-        type: String,
-        required: true,
-        max: 255
+        type: DataTypes.STRING(255),
+        allowNull: false,
     },
     grad: {
-        type: String,
-        required: true,
-        max: 255
+        type: DataTypes.STRING(255),
+        allowNull: false,
     },
     postanskiBroj: {
-        type: String,
-        required: true,
-        max: 20
+        type: DataTypes.STRING(20),
+        allowNull: false,
     },
     drzava: {
-        type: String,
-        required: true,
-        max: 255
+        type: DataTypes.STRING(255),
+        allowNull: false,
     },
-}, {timestamps: true});
+}, {
+    timestamps: true,
+    tableName: 'adrese', 
+});
 
-module.exports = mongoose.models.Adresa || mongoose.model('Adresa', AdresaSchema);
+Korisnik.hasMany(Adresa, { foreignKey: 'korisnikId' });
+Adresa.belongsTo(Korisnik, { foreignKey: 'korisnikId' });
+
+module.exports = Adresa;

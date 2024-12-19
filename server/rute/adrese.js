@@ -1,45 +1,54 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const Adresa = require('../modeli/Adresa');
+const Adresa = require('../modeli/Adresa'); // Sequelize model
 const verifikacija = require('../verifikacijaTokena');
 const ruter = express.Router();
 
+// POST: Dodavanje nove adrese
 ruter.post('/', verifikacija, async (zahtjev, odgovor) => {
     try {
-        const novaAdresa = new Adresa({ ...zahtjev.body, korisnikId: zahtjev.korisnik.id });
-        const sacuvanaAdresa = await novaAdresa.save();
-        odgovor.status(201).json(sacuvanaAdresa);
+        const novaAdresa = await Adresa.create({ 
+            ...zahtjev.body, 
+            korisnikId: zahtjev.korisnik.id 
+        });
+        odgovor.status(201).json(novaAdresa);
     } catch (greska) {
         odgovor.status(500).json(greska);
     }
 });
 
+// PUT: Ažuriranje adrese
 ruter.put('/:id', verifikacija, async (zahtjev, odgovor) => {
     try {
-        const azuriranaAdresa = await Adresa.findOneAndUpdate(
-            { _id: zahtjev.params.id, korisnikId: zahtjev.korisnik.id },
-            { $set: zahtjev.body },
-            { new: true }
-        );
+        const azuriranaAdresa = await Adresa.update(zahtjev.body, {
+            where: {
+                id: zahtjev.params.id,
+                korisnikId: zahtjev.korisnik.id
+            },
+            returning: true,
+            plain: true
+        });
 
-        if (!azuriranaAdresa) {
+        if (azuriranaAdresa[0] === 0) {
             return odgovor.status(404).json("Adresa nije pronađena ili nemate dozvolu za izmjenu.");
         }
 
-        odgovor.status(200).json(azuriranaAdresa);
+        odgovor.status(200).json(azuriranaAdresa[1]);
     } catch (greska) {
         odgovor.status(500).json(greska);
     }
 });
 
+// DELETE: Brisanje adrese
 ruter.delete('/:id', verifikacija, async (zahtjev, odgovor) => {
     try {
-        const obrisanaAdresa = await Adresa.findOneAndDelete({
-            _id: zahtjev.params.id,
-            korisnikId: zahtjev.korisnik.id
+        const brojObrisanih = await Adresa.destroy({
+            where: {
+                id: zahtjev.params.id,
+                korisnikId: zahtjev.korisnik.id
+            }
         });
 
-        if (!obrisanaAdresa) {
+        if (brojObrisanih === 0) {
             return odgovor.status(404).json("Adresa nije pronađena ili nemate dozvolu za brisanje.");
         }
 
@@ -49,20 +58,26 @@ ruter.delete('/:id', verifikacija, async (zahtjev, odgovor) => {
     }
 });
 
+// GET: Dohvati sve adrese korisnika
 ruter.get('/', verifikacija, async (zahtjev, odgovor) => {
     try {
-        const adrese = await Adresa.find({ korisnikId: zahtjev.korisnik.id });
+        const adrese = await Adresa.findAll({
+            where: { korisnikId: zahtjev.korisnik.id }
+        });
         odgovor.status(200).json(adrese);
     } catch (greska) {
         odgovor.status(500).json(greska);
     }
 });
 
+// GET: Dohvati adresu po ID-u
 ruter.get('/:id', verifikacija, async (zahtjev, odgovor) => {
     try {
         const adresa = await Adresa.findOne({
-            _id: zahtjev.params.id,
-            korisnikId: zahtjev.korisnik.id
+            where: {
+                id: zahtjev.params.id,
+                korisnikId: zahtjev.korisnik.id
+            }
         });
 
         if (!adresa) {

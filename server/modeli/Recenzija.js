@@ -1,25 +1,34 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../sequelizeInstance'); 
 
-const RecenzijaSchema = new mongoose.Schema({
+const Recenzija = sequelize.define('Recenzija', {
     korisnikId: {
-        type: String,
-        required: true
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     proizvodId: {
-        type: String,
-        required: true
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     ocjena: {
-        type: Number,
-        required: true,
-        min: 1,
-        max: 5
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+            min: 1,
+            max: 5,
+        },
     },
     komentar: {
-        type: String,
-        max: 1024,
-        default: "Bez komentara"
-    }
-}, {timestamps: true});
+        type: DataTypes.STRING(1024),
+        allowNull: true,
+        defaultValue: "Bez komentara",
+        validate: {
+            len: [0, 1024],
+        },
+    },
+}, {
+    timestamps: true,
+    tableName: 'recenzije',
+});
 
-module.exports = mongoose.models.Recenzija || mongoose.model('Recenzija', RecenzijaSchema);
+module.exports = Recenzija;
