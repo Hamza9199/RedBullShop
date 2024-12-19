@@ -6,13 +6,13 @@ const ruter = express.Router();
 // POST: Kreiranje nove recenzije
 ruter.post('/', verifikacija, async (zahtjev, odgovor) => {
     try {
-        const { proizvodId, ocjena, komentar } = zahtjev.body;
+        const { proizvodId, ocjena, komentar, korisnikId } = zahtjev.body;
 
         // Provjera da li korisnik već ima recenziju za proizvod
         const postojecaRecenzija = await Recenzija.findOne({
             where: {
-                korisnikId: zahtjev.korisnik.id,
-                proizvodId
+                korisnikId: korisnikId,
+                proizvodId: proizvodId
             }
         });
 
@@ -22,7 +22,7 @@ ruter.post('/', verifikacija, async (zahtjev, odgovor) => {
 
         // Kreiranje nove recenzije
         const novaRecenzija = await Recenzija.create({
-            korisnikId: zahtjev.korisnik.id,
+            korisnikId: korisnikId,
             proizvodId,
             ocjena,
             komentar
@@ -44,8 +44,23 @@ ruter.get('/', async (zahtjev, odgovor) => {
     }
 });
 
+//GET: Dohvati specificnu recenziju
+ruter.get('/:id', async (zahtjev, odgovor) => {
+    try {
+        const recenzija = await Recenzija.findOne({
+            where: {
+                id: zahtjev.params.id
+            }
+        });
+        odgovor.status(200).json(recenzija);
+    } catch (greska) {
+        odgovor.status(500).json(greska);
+    }
+});
+
+
 // GET: Dohvati recenzije za specifičan proizvod
-ruter.get('/:proizvodId', async (zahtjev, odgovor) => {
+ruter.get('/:proizvodId/sve', async (zahtjev, odgovor) => {
     try {
         const recenzije = await Recenzija.findAll({
             where: {
@@ -57,6 +72,8 @@ ruter.get('/:proizvodId', async (zahtjev, odgovor) => {
         odgovor.status(500).json(greska);
     }
 });
+
+
 
 // GET: Dohvati recenziju korisnika za specifičan proizvod
 ruter.get('/:proizvodId/moj', verifikacija, async (zahtjev, odgovor) => {

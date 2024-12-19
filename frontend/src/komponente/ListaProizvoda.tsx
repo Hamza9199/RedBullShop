@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface Product {
     id: number;
@@ -12,6 +13,7 @@ const ListaProizvoda: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -37,10 +39,14 @@ const ListaProizvoda: React.FC = () => {
         return <div>{error}</div>;
     }
 
+    const handleClick = (id: number) => {
+        navigate(`/proizvod/${id}`);
+    };
+
     return (
         <div className="product-list">
             {products.map(product => (
-                <div key={product.id} className="product-item">
+                <div key={product.id} className="product-item" onClick={() => handleClick(product.id)}>
                     <img src={product.slikaURL} alt={product.naziv} />
                     <h3>{product.naziv}</h3>
                     <p>${product.cijena.toFixed(2)}</p>
