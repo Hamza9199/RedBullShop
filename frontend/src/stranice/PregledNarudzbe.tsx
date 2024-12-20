@@ -54,10 +54,10 @@ const PregledNarudzbe: React.FC = () => {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:3000/server/narudzbe/${id}`, config);
+            await axios.put(`http://localhost:3000/server/narudzbe/${id}/status`, { statusNarudzbe: 'Otkazano' }, config);
             navigate(`/korisnik/${token.id}`);
         } catch (error) {
-            console.error('Error deleting order:', error);
+            console.error('Error updating order status:', error);
         }
     };
 

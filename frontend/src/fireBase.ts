@@ -1,14 +1,16 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage';
 
+
+
 export const firebaseConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_FIREBASE_APP_ID,
-    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
+    apiKey:'AIzaSyDNwnJjEK4wCr53Mmv8T5cI7gYiOL4AN8E',
+    authDomain: 'trailerflix-25df2.firebaseapp.com',
+    projectId: 'trailerflix-25df2',
+    storageBucket: 'trailerflix-25df2.appspot.com',
+    messagingSenderId: '638760555146',
+    appId: '1:638760555146:web:b0d70371cdea3ead6ad373',
+    measurementId: 'G-Q6CQJ9G95T'
 };
 
 firebase.initializeApp(firebaseConfig);

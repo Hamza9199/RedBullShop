@@ -161,7 +161,7 @@ export const Proizvod: React.FC = () => {
                             Ažuriraj Recenziju
                         </button>
                     ) : (
-                        <button onClick={() => navigate(`/nova-recenzija/${id}`)}>Dodaj Recenziju</button>
+                        <button onClick={() => navigate(`/nova-recenzija`)}>Dodaj Recenziju</button>
                     )}
                 </>
             )}

@@ -76,7 +76,7 @@ export const Profil: React.FC = () => {
         const fetchNarudzbe = async () => {
             try {
                 const response = await axios.get(`http://localhost:3000/server/narudzbe`, config);
-                setNarudzbe(response.data.filter((narudzba: Narudzba) => String(narudzba.korisnikId) === String(token.id)));
+                setNarudzbe(response.data.filter((narudzba: Narudzba) => String(narudzba.korisnikId) === String(token.id) && narudzba.statusNarudzbe != "Otkazano") );
             } catch (error) {
                 console.error('Error fetching orders:', error);
             }

@@ -76,7 +76,7 @@ const UpdateNarudzbe: React.FC = () => {
                     <form onSubmit={handleSubmit}>
                         <label>
                             Ukupna cijena:
-                            <input type="number" name="ukupnaCijena" value={narudzba.ukupnaCijena} onChange={handleChange} />
+                            <p>{narudzba.ukupnaCijena} KM</p>
                         </label>
                         <label>
                             Status narudžbe:
@@ -89,10 +89,7 @@ const UpdateNarudzbe: React.FC = () => {
                         </label>
                         <label>
                             Način plaćanja:
-                            <select name="placanjeMetoda" value={narudzba.placanjeMetoda} onChange={handleChange}>
-                                <option value="Kartica">Kartica</option>
-                                <option value="PayPal">PayPal</option>
-                            </select>
+                            <p>{narudzba.placanjeMetoda}</p>
                         </label>
                         <label>
                             Status plaćanja:

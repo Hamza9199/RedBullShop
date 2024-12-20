@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import storage from "../fireBase";
 
 export const NoviProizvod = () => {
     const [proizvod, setProizvod] = useState({
@@ -10,6 +12,7 @@ export const NoviProizvod = () => {
         cijena: 0,
         slikaURL: ''
     });
+    const [file, setFile] = useState<File | null>(null);
     const { id } = useParams();
     const history = useNavigate();
 
@@ -23,7 +26,6 @@ export const NoviProizvod = () => {
         headers: { Authorization: `Bearer ${token.accessToken}` }
     };
 
-    // Fetch funkcija koja koristi token u zaglavljima
     useEffect(() => {
         const fetchProduct = async () => {
             if (id) {
@@ -47,16 +49,47 @@ export const NoviProizvod = () => {
         }));
     };
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setFile(e.target.files[0]);
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            if (id) {
-                // Za ažuriranje proizvoda
-                await axios.put(`http://localhost:3000/server/proizvodi/${id}`, proizvod, config);
-                history('/');
+            if (file) {
+                const storageRef = ref(storage, `items/${new Date().getTime()}_${file.name}`);
+                const uploadTask = uploadBytesResumable(storageRef, file);
+
+                uploadTask.on(
+                    "state_changed",
+                    (snapshot) => {
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        console.log(`Upload je ${progress}% gotov`);
+                    },
+                    (error) => {
+                        console.error('Error uploading file:', error);
+                    },
+                    async () => {
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        setProizvod(prev => ({ ...prev, slikaURL: downloadURL }));
+
+                        // Nastavi sa kreiranjem ili ažuriranjem proizvoda nakon upload-a
+                        if (id) {
+                            await axios.put(`http://localhost:3000/server/proizvodi/${id}`, { ...proizvod, slikaURL: downloadURL }, config);
+                        } else {
+                            await axios.post('http://localhost:3000/server/proizvodi', { ...proizvod, slikaURL: downloadURL }, config);
+                        }
+                        history('/');
+                    }
+                );
             } else {
-                // Za kreiranje novog proizvoda
-                await axios.post('http://localhost:3000/server/proizvodi', proizvod, config);
+                if (id) {
+                    await axios.put(`http://localhost:3000/server/proizvodi/${id}`, proizvod, config);
+                } else {
+                    await axios.post('http://localhost:3000/server/proizvodi', proizvod, config);
+                }
                 history('/');
             }
         } catch (error) {
@@ -108,12 +141,11 @@ export const NoviProizvod = () => {
                     />
                 </div>
                 <div>
-                    <label>Slika URL:</label>
+                    <label>Slika:</label>
                     <input
-                        type="text"
-                        name="slikaURL"
-                        value={proizvod.slikaURL}
-                        onChange={handleChange}
+                        type="file"
+                        name="slika"
+                        onChange={handleFileChange}
                     />
                 </div>
                 <button type="submit">{id ? 'Ažuriraj' : 'Kreiraj'}</button>
