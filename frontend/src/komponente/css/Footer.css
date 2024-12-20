@@ -6,8 +6,8 @@
     left: 0;
     right: 0;
 }
-.linkSection iframe {
-    margin-top: 10px;
+.muzikaSection  {
+    margin-top: 50px;
     border: none;
     border-radius: 5px;
     overflow: hidden;
@@ -43,8 +43,11 @@
 
 .copyRight {
     text-align: center;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    display: flex;
     margin-top: 20px;
-    width: 130px;
 }
 
 @media (max-width: 768px) {

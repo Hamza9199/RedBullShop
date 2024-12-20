@@ -11,12 +11,8 @@ const Footer: React.FC = () => {
                 <p>Email: redbullshop@redbull.ba</p>
                 <p>Telefon: +387999888</p>
             </div>
-            <div className={"linkSection"}>
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/kontakt">Kontakt</a></li>
-                    <li><iframe
+            <div className={"muzikaSection"}>
+            <iframe
                                 src="https://www.youtube.com/embed/jG2AciJ3zHY?autoplay=1&loop=1&playlist=jG2AciJ3zHY"
                                 width="300"
                                 height="80"
@@ -24,7 +20,14 @@ const Footer: React.FC = () => {
                                 allow="autoplay; encrypted-media"
                                 allowFullScreen
                                 title="Background Music"
-                            ></iframe></li>
+                            ></iframe>
+            </div>
+                <div className={"linkSection"}>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/kontakt">Kontakt</a></li>
+                    
                 </ul>
             </div>
         </div>
