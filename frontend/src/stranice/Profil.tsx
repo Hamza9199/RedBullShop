@@ -14,15 +14,32 @@ interface Korisnik {
 }
 
 interface Recenzija {
-    _id: string;
+    id: string;
     ocjena: number;
     komentar: string;
     korisnikId: number;
 }
 
+interface Narudzba {
+    id: string;
+    korisnikId: number;
+    adresaId: number;
+    ukupnaCijena: number;
+    statusNarudzbe: string;
+    placanjeMetoda: string;
+    placanjeStatus: string;
+    proizvodi: {
+        _id: string;
+        naziv: string;
+        kolicina: number;
+        cijena: number;
+    }[];
+}
+
 export const Profil: React.FC = () => {
     const [korisnik, setKorisnik] = useState<Korisnik | null>(null);
     const [recenzije, setRecenzije] = useState<Recenzija[]>([]);
+    const [narudzbe, setNarudzbe] = useState<Narudzba[]>([]);
     const navigate = useNavigate();
 
     const token = JSON.parse(localStorage.getItem("korisnik") || '{}');
@@ -52,8 +69,20 @@ export const Profil: React.FC = () => {
             } catch (error) {
                 console.error('Error fetching reviews:', error);
             }
+
+
         };
 
+        const fetchNarudzbe = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3000/server/narudzbe`, config);
+                setNarudzbe(response.data.filter((narudzba: Narudzba) => String(narudzba.korisnikId) === String(token.id)));
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+            }
+        }
+
+        fetchNarudzbe();
         fetchKorisnik();
         fetchRecenzije();
     }, [token.id]);
@@ -79,9 +108,22 @@ export const Profil: React.FC = () => {
                     <h2>Moje Recenzije</h2>
                     <ul>
                         {recenzije.map((recenzija: Recenzija) => (
-                            <li key={recenzija._id}>
+                            <li key={recenzija.id} onClick={() => navigate(`/recenzija/${recenzija.id}`)}>
                                 <p>Ocjena: {recenzija.ocjena}</p>
                                 <p>Komentar: {recenzija.komentar}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+                <section>
+                    <h2>Moje Narudžbe</h2>
+                    <ul>
+                        {narudzbe.map((narudzba: Narudzba) => (
+                            <li key={narudzba.id} onClick={() => navigate(`/narudzba-pregled/${narudzba.id}`)}>
+                                <p>Ukupna cijena: {narudzba.ukupnaCijena}</p>
+                                <p>Status narudžbe: {narudzba.statusNarudzbe}</p>
+                                <p>Način plaćanja: {narudzba.placanjeMetoda}</p>
+                                <p>Status plaćanja: {narudzba.placanjeStatus}</p>
                             </li>
                         ))}
                     </ul>

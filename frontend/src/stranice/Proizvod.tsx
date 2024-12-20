@@ -57,7 +57,7 @@ export const Proizvod: React.FC = () => {
                     setRecenzije(korisnikovaRecenzija ? [korisnikovaRecenzija, ...ostaleRecenzije] : recenzijeResponse.data);
                 }
             } catch {
-                console.error('Error fetching product data  or reviews');
+                console.error('Greska prilikom dohvatanja proizvoda ili recenzija.');
             } finally {
                 setIsLoading(false);
             }
@@ -69,7 +69,7 @@ export const Proizvod: React.FC = () => {
     const handleAddToCart = async () => {
         try {
             if (!config) {
-                console.error('Authorization token is missing');
+                console.error('Nedostaje token.');
                 return;
             }
 
@@ -101,7 +101,7 @@ export const Proizvod: React.FC = () => {
                     }
                 }
             } catch {
-                console.warn('No existing cart found, creating a new one.');
+                console.warn('Nemate Korpu.');
                 proizvodi.push({
                     proizvodId: Number(id),
                     kolicina: 1,

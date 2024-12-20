@@ -15,6 +15,8 @@ import { NoviProizvod } from './stranice/NoviProizvod';
 import { Recenzija } from './stranice/Recenzija';
 import { Kontakt } from './stranice/Kontakt';
 import  UpdateKorisnik  from './stranice/UpdateKorisnik';
+import PregledNarudzbe from './stranice/PregledNarudzbe';
+import UpdateNarudzbe from './stranice/UpdateNarudzbe';
 
 function App() {
   return (
@@ -26,7 +28,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
-          <Route path="/narudzba" element={<ProtectedRoute element={<Narudzba />} />} />          {/* treba dodati */}
+          <Route path="/narudzba" element={<ProtectedRoute element={<Narudzba />} />} />       
           <Route path="/nova-adresa" element={<ProtectedRoute element={<NovaAdresa />} />} />
           <Route path="/update-adresa/:id" element={<ProtectedRoute element={<NovaAdresa />} />} />
           <Route path="/nova-recenzija" element={<ProtectedRoute element={<NovaRecenzija />} />} />
@@ -37,7 +39,10 @@ function App() {
           <Route path="/korisnik/:id" element={<ProtectedRoute element={<Profil />} />} />
           <Route path="/update-korisnik/:id" element={<ProtectedRoute element={<UpdateKorisnik />} />} />
           <Route path="/proizvod/:id" element={<ProtectedRoute element={<Proizvod />} />} />
-          <Route path="/korpa" element={<ProtectedRoute element={<Korpa />} />} />               {/* treba dodati */}
+          <Route path="/korpa" element={<ProtectedRoute element={<Korpa />} />} />    
+          <Route path="/narudzba-pregled/:id" element={<ProtectedRoute element={<PregledNarudzbe />} />} />       
+          <Route path="/azuriraj-narudzbu/:id" element={<ProtectedRoute element={<UpdateNarudzbe />} />} />       
+           
         </Routes>
       </Router>
     </>
