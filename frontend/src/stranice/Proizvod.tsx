@@ -56,8 +56,8 @@ export const Proizvod: React.FC = () => {
                     );
                     setRecenzije(korisnikovaRecenzija ? [korisnikovaRecenzija, ...ostaleRecenzije] : recenzijeResponse.data);
                 }
-            } catch (error) {
-                console.error('Error fetching data:', error);
+            } catch {
+                console.error('Error fetching product data  or reviews');
             } finally {
                 setIsLoading(false);
             }
@@ -72,33 +72,36 @@ export const Proizvod: React.FC = () => {
                 console.error('Authorization token is missing');
                 return;
             }
-    
-            const response = await axios.get(
-                'http://localhost:3000/server/korpe',  
-                {
-                    headers: { Authorization: `Bearer ${token.accessToken}` },
-                    params: { id: token.id }  
-                }
-            );
-    
-            let proizvodi = [];
-            if (response.data) {
-                proizvodi = [...response.data.proizvodi];
-                const existingProduct = proizvodi.find(
-                    (product: { proizvodId: number; kolicina: number; naziv?: string; cijena?: number }) => product.proizvodId === Number(id)
+
+            let proizvodi: { proizvodId: number; kolicina: number; naziv?: string; cijena?: number }[] = [];
+            try {
+                const response = await axios.get(
+                    'http://localhost:3000/server/korpe',
+                    {
+                        headers: { Authorization: `Bearer ${token.accessToken}` },
+                        params: { id: token.id }
+                    }
                 );
-                
-                if (existingProduct) {
-                    existingProduct.kolicina += 1;
-                } else {
-                    proizvodi.push({
-                        proizvodId: Number(id),
-                        kolicina: 1,
-                        naziv: proizvod?.naziv,
-                        cijena: proizvod?.cijena,
-                    });
+
+                if (response.data) {
+                    proizvodi = [...response.data.proizvodi];
+                    const existingProduct = proizvodi.find(
+                        (product: { proizvodId: number; kolicina: number; naziv?: string; cijena?: number }) => product.proizvodId === Number(id)
+                    );
+
+                    if (existingProduct) {
+                        existingProduct.kolicina += 1;
+                    } else {
+                        proizvodi.push({
+                            proizvodId: Number(id),
+                            kolicina: 1,
+                            naziv: proizvod?.naziv,
+                            cijena: proizvod?.cijena,
+                        });
+                    }
                 }
-            } else {
+            } catch {
+                console.warn('No existing cart found, creating a new one.');
                 proizvodi.push({
                     proizvodId: Number(id),
                     kolicina: 1,
@@ -106,12 +109,12 @@ export const Proizvod: React.FC = () => {
                     cijena: proizvod?.cijena,
                 });
             }
-    
+
             await axios.post(
                 'http://localhost:3000/server/korpe',
                 {
                     korisnikId: parseInt(userId),
-                    ukupnaCijena: proizvodi.reduce((total: number, product: { cijena: number; kolicina: number }) => total + product.cijena * product.kolicina, 0),
+                    ukupnaCijena: proizvodi.reduce((total: number, product: { cijena?: number; kolicina: number }) => total + (product.cijena ?? 0) * product.kolicina, 0),
                     proizvodi: proizvodi,
                 },
                 config

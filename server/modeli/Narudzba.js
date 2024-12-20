@@ -22,25 +22,13 @@ const Narudzba = sequelize.define('Narudzba', {
         defaultValue: 'Na čekanju',
     },
     placanjeMetoda: {
-        type: DataTypes.ENUM('Kartica', 'PayPal', 'Pouzećem'),
+        type: DataTypes.ENUM('Kartica', 'PayPal'),
         allowNull: false,
     },
     placanjeStatus: {
         type: DataTypes.ENUM('Čeka se', 'Uspješno', 'Neuspješno'),
         defaultValue: 'Čeka se',
     },
-    transakcijskiId: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        validate: {
-            isValid(value) {
-                if (this.placanjeMetoda !== 'Pouzećem' && !value) {
-                    throw new Error('Transakcijski ID je obavezan za metode koje nisu Pouzećem');
-                }
-            },
-        },
-    },
-    
     proizvodi: {
         type: DataTypes.JSON,  
         allowNull: false,

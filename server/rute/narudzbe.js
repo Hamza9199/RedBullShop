@@ -6,15 +6,17 @@ const ruter = express.Router();
 // POST: Kreiranje nove narudžbe
 ruter.post('/', verifikacija, async (zahtjev, odgovor) => {
     try {
-        const { proizvodi, adresa, ukupnaCijena, placanje } = zahtjev.body;
+        const { korisnikId, adresaId, ukupnaCijena, placanjeMetoda, proizvodi } = zahtjev.body;
 
         // Kreiranje nove narudžbe
         const novaNarudzba = await Narudzba.create({
-            korisnikId: zahtjev.korisnik.id,
-            proizvodi,
-            adresa,
-            ukupnaCijena,
-            placanje
+            korisnikId: zahtjev.body.korisnikId,
+            adresaId: zahtjev.body.adresaId,
+            ukupnaCijena: zahtjev.body.ukupnaCijena,
+            statusNarudzbe: 'Na čekanju',
+            placanjeMetoda: zahtjev.body.placanjeMetoda,
+            placanjeStatus: 'Čeka se',
+            proizvodi: zahtjev.body.proizvodi
         });
 
         odgovor.status(201).json(novaNarudzba);
