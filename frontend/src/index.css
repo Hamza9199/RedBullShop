@@ -13,6 +13,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+
+html, body {
+  height: 100%;
+  width: 100%;
+  background-image: url('https://www.amalgamcollection.com/cdn/shop/files/Wideedit_892066d1-8f5f-4c18-98cc-7bc44b7a2857_2000x850_crop_center.jpg?v=1705578909');
+  background-size: cover; 
+  background-attachment: fixed;
+  background-position: center center; 
+  background-repeat: no-repeat;
+  
+}
+
+
+
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -24,10 +40,12 @@ a:hover {
 
 body {
   margin: 0;
+  padding: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 h1 {

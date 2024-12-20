@@ -1,7 +1,7 @@
 import React from 'react';
+import './css/Header.css';
 
 const Header: React.FC = () => {
-
     const token = JSON.parse(localStorage.getItem("korisnik") || '{}');
 
     if (!token || !token.accessToken) {
@@ -9,17 +9,19 @@ const Header: React.FC = () => {
     }
 
     return (
-        <header>
-            <h1>Welcome to RedBull Shop</h1>
-            <nav>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/kontakt">Contact</a></li>
-                    <li><a href="/login">Login</a></li>
-                    <li><a href={`/korisnik/${token.id}`}>Profil</a></li>
-                    <li><a href="/korpa">Korpa</a></li>
-                </ul>
-            </nav>
+        <header id="main-header">
+            <div className="header-container">
+                <h1 className="header-title">RedBull Online Prodavnica</h1>
+                <nav className="header-nav">
+                    <ul className="nav-list">
+                        <li className="nav-item"><a href="/" className="nav-link">Home</a></li>
+                        <li className="nav-item"><a href="/kontakt" className="nav-link">Contact</a></li>
+                        <li className="nav-item"><a href="/login" className="nav-link">Login</a></li>
+                        <li className="nav-item"><a href={`/korisnik/${token.id}`} className="nav-link">Profil</a></li>
+                        <li className="nav-item"><a href="/korpa" className="nav-link">Korpa</a></li>
+                    </ul>
+                </nav>
+            </div>
         </header>
     );
 };

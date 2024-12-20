@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Footer from "../komponente/Footer"
+import Header from "../komponente/Header"
 
 interface Proizvod {
     proizvodId: number;
@@ -111,6 +113,8 @@ const Narudzba: React.FC = () => {
     }
 
     return (
+        <>
+        <Header />
         <div>
             <h1>Narudzba</h1>
             {korpa && korpa.proizvodi.length > 0 ? (
@@ -151,6 +155,8 @@ const Narudzba: React.FC = () => {
                 <p>Vaša korpa je prazna.</p>
             )}
         </div>
+        <Footer />
+        </>
     );
 };
 

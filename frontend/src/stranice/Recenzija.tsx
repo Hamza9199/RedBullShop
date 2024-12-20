@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import Footer from "../komponente/Footer"
+import Header from "../komponente/Header"
 
 export const Recenzija = () => {
     interface Recenzija {
@@ -49,6 +51,8 @@ export const Recenzija = () => {
     };
 
     return (
+        <>
+        <Header />
         <div>
             {recenzija ? (
                 <>
@@ -66,5 +70,7 @@ export const Recenzija = () => {
                 <p>Učitavanje...</p>
             )}
         </div>
+        <Footer />
+        </>
     );
 };

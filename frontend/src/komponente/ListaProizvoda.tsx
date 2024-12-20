@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './css/ListaProizvoda.css'; // Import the CSS file
 
 interface Product {
     id: number;
@@ -47,9 +48,9 @@ const ListaProizvoda: React.FC = () => {
         <div className="product-list">
             {products.map(product => (
                 <div key={product.id} className="product-item" onClick={() => handleClick(product.id)}>
-                    <img src={product.slikaURL} alt={product.naziv} />
-                    <h3>{product.naziv}</h3>
-                    <p>${product.cijena.toFixed(2)}</p>
+                    <img src={product.slikaURL} alt={product.naziv} className="product-image" />
+                    <h3 className="product-name">{product.naziv}</h3>
+                    <p className="product-price">${product.cijena.toFixed(2)}</p>
                 </div>
             ))}
         </div>

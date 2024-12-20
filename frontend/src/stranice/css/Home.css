@@ -1,0 +1,22 @@
+.h1 {
+    margin: 0; 
+    padding: 20px 0; 
+    text-align: center; 
+    font-size: 2em; 
+    color: #c2bebe; 
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    top: 75px;
+    left: 0;
+}
+
+.products {
+    padding: 20px; 
+}
+
+.home{
+   
+    
+    
+}

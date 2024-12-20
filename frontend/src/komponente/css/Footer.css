@@ -1,0 +1,58 @@
+.footer {
+    background: linear-gradient(1deg, #333d76, #000000);
+    color: white;
+    padding: 15px 5px;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+.linkSection iframe {
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+
+.footerContent {
+    display: flex;
+    justify-content: space-between;
+}
+
+.contactSection, .linkSection {
+    flex: 1;
+}
+
+.contactSection h3, .linkSection h3 {
+    color: #fff;
+}
+
+.linkSection ul {
+    list-style: none;
+    padding: 0;
+}
+
+.linkSection li {
+    margin-bottom: 10px;
+}
+
+.linkSection a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.copyRight {
+    text-align: center;
+    margin-top: 20px;
+    width: 130px;
+}
+
+@media (max-width: 768px) {
+    .footerContent {
+        flex-direction: column;
+    }
+
+    .contactSection, .linkSection {
+        margin-bottom: 20px;
+    }
+}

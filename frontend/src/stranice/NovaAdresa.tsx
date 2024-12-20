@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import Footer from "../komponente/Footer"
+import Header from "../komponente/Header"
 
 export const NovaAdresa = () => {
     const [adresa, setAdresa] = useState({
@@ -62,6 +64,8 @@ export const NovaAdresa = () => {
     };
 
     return (
+        <>
+        <Header />
         <div>
             <h1>{id ? 'Ažuriraj Adresu' : 'Nova Adresa'}</h1>
             <form onSubmit={handleSubmit}>
@@ -108,5 +112,7 @@ export const NovaAdresa = () => {
                 <button type="submit">{id ? 'Ažuriraj' : 'Kreiraj'}</button>
             </form>
         </div>
+        <Footer />
+        </>
     );
 };

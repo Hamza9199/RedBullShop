@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import storage from "../fireBase";
+import Header from '../komponente/Header';
+import Footer from '../komponente/Footer';
 
 export const NoviProizvod = () => {
     const [proizvod, setProizvod] = useState({
@@ -98,6 +100,8 @@ export const NoviProizvod = () => {
     };
 
     return (
+        <>
+        <Header />
         <div>
             <h1>{id ? 'Ažuriraj Proizvod' : 'Novi Proizvod'}</h1>
             <form onSubmit={handleSubmit}>
@@ -151,5 +155,7 @@ export const NoviProizvod = () => {
                 <button type="submit">{id ? 'Ažuriraj' : 'Kreiraj'}</button>
             </form>
         </div>
+        <Footer />
+        </>
     );
 };
