@@ -7,6 +7,8 @@ const ruter = express.Router();
 ruter.post('/', verifikacija, async (zahtjev, odgovor) => {
     if (zahtjev.korisnik.isAdmin) {
         try {
+            const { naziv, opis, kategorija, cijena, slikaURL } = zahtjev.body;
+            console.log(zahtjev.body);
             const noviProizvod = await Proizvod.create(zahtjev.body);
             odgovor.status(201).json(noviProizvod);
         } catch (greska) {

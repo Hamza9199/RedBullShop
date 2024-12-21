@@ -1,10 +1,11 @@
 .footer {
-    background: linear-gradient(1deg, #333d76, #000000);
+    background: linear-gradient(1deg, #1b203f, #000000);
     color: white;
     padding: 15px 5px;
     position: absolute;
     left: 0;
     right: 0;
+    bottom: auto;
 }
 .muzikaSection  {
     margin-top: 50px;

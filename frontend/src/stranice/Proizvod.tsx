@@ -131,6 +131,24 @@ export const Proizvod: React.FC = () => {
         return <p>Učitavanje...</p>;
     }
 
+    const handleGoToCreateReview = () => {
+        localStorage.setItem('proizvod', JSON.stringify(proizvod?.id));
+
+        navigate(`/nova-recenzija`);
+    };
+
+    const handleGoToUpdateReview = () => {
+        const reviewId = recenzije.find((recenzija) => recenzija.korisnikId === userId)?.id;
+        if (!reviewId) {
+            console.error('Nemate recenziju za ažuriranje.');
+            return;
+        }
+        localStorage.removeItem('proizvod');
+        localStorage.setItem('proizvod', JSON.stringify(proizvod?.id));
+
+        navigate(`/update-recenzija/${reviewId}`);
+    };
+
     return (
         <>
         <Header />
@@ -157,11 +175,11 @@ export const Proizvod: React.FC = () => {
                         <p>Još uvijek nema recenzija.</p>
                     )}
                     {hasReviewed ? (
-                        <button onClick={() => navigate(`/update-recenzija/${id}`)}>
+                        <button onClick={() => handleGoToUpdateReview()}>
                             Ažuriraj Recenziju
                         </button>
                     ) : (
-                        <button onClick={() => navigate(`/nova-recenzija`)}>Dodaj Recenziju</button>
+                        <button onClick={() => handleGoToCreateReview()}>Dodaj Recenziju</button>
                     )}
                 </>
             )}

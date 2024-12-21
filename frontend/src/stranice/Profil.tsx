@@ -1,10 +1,10 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Header from '../komponente/Header';
 import Footer from '../komponente/Footer';
 import { Adresa } from '../komponente/Adresa';
+import './css/Profil.css';
 
 interface Korisnik {
     id: string;
@@ -69,22 +69,20 @@ export const Profil: React.FC = () => {
             } catch (error) {
                 console.error('Error fetching reviews:', error);
             }
-
-
         };
 
         const fetchNarudzbe = async () => {
             try {
                 const response = await axios.get(`http://localhost:3000/server/narudzbe`, config);
-                setNarudzbe(response.data.filter((narudzba: Narudzba) => String(narudzba.korisnikId) === String(token.id) && narudzba.statusNarudzbe != "Otkazano") );
+                setNarudzbe(response.data.filter((narudzba: Narudzba) => String(narudzba.korisnikId) === String(token.id) && narudzba.statusNarudzbe !== "Otkazano"));
             } catch (error) {
                 console.error('Error fetching orders:', error);
             }
-        }
+        };
 
-        fetchNarudzbe();
         fetchKorisnik();
         fetchRecenzije();
+        fetchNarudzbe();
     }, [token.id]);
 
     const handleUpdate = () => {
@@ -92,49 +90,52 @@ export const Profil: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="profile-container">
             <Header />
-            <main>
-                <h1>Profil</h1>
+            <div className="profile-main">
                 {korisnik && (
-                    <div>
-                        <p>Username: {korisnik.username}</p>
-                        <p>Email: {korisnik.email}</p>
-                        <button onClick={handleUpdate}>Ažuriraj Profil</button>
-                        {korisnik.isAdmin && <button onClick={() => navigate('/dashboard')}>Dashboard</button>}
+                    
+                    <div className="profile-info">
+                        <p><strong>Korisničko ime:</strong> {korisnik.username}</p>
+                        <p><strong>Email:</strong> {korisnik.email}</p>
+                        <button className="btn-update" onClick={handleUpdate}>Ažuriraj Profil</button>
+                        {korisnik.isAdmin && (
+                            <button className="btn-dashboard" onClick={() => navigate('/dashboard')}>Dashboard</button>
+                        )}
                     </div>
                 )}
-                <section>
-                    <h2>Moje Recenzije</h2>
-                    <ul>
-                        {recenzije.map((recenzija: Recenzija) => (
-                            <li key={recenzija.id} onClick={() => navigate(`/recenzija/${recenzija.id}`)}>
-                                <p>Ocjena: {recenzija.ocjena}</p>
-                                <p>Komentar: {recenzija.komentar}</p>
+                <div className='profile-content'>
+                <div className="profile-section">
+                    <h2 className="section-title">Moje Recenzije</h2>
+                    <ul className="reviews-list">
+                        {recenzije.map((recenzija) => (
+                            <li key={recenzija.id} className="review-item" onClick={() => navigate(`/recenzija/${recenzija.id}`)}>
+                                <p><strong>Ocjena:</strong> {recenzija.ocjena}</p>
+                                <p><strong>Komentar:</strong> {recenzija.komentar}</p>
                             </li>
                         ))}
                     </ul>
-                </section>
-                <section>
-                    <h2>Moje Narudžbe</h2>
-                    <ul>
-                        {narudzbe.map((narudzba: Narudzba) => (
-                            <li key={narudzba.id} onClick={() => navigate(`/narudzba-pregled/${narudzba.id}`)}>
-                                <p>Ukupna cijena: {narudzba.ukupnaCijena}</p>
-                                <p>Status narudžbe: {narudzba.statusNarudzbe}</p>
-                                <p>Način plaćanja: {narudzba.placanjeMetoda}</p>
-                                <p>Status plaćanja: {narudzba.placanjeStatus}</p>
+                </div>
+                <div className="profile-section">
+                    <h2 className="section-title">Moje Narudžbe</h2>
+                    <ul className="orders-list">
+                        {narudzbe.map((narudzba) => (
+                            <li key={narudzba.id} className="order-item" onClick={() => navigate(`/narudzba-pregled/${narudzba.id}`)}>
+                                <p><strong>Ukupna cijena:</strong> {narudzba.ukupnaCijena} KM</p>
+                                <p><strong>Status narudžbe:</strong> {narudzba.statusNarudzbe}</p>
+                                <p><strong>Način plaćanja:</strong> {narudzba.placanjeMetoda}</p>
+                                <p><strong>Status plaćanja:</strong> {narudzba.placanjeStatus}</p>
                             </li>
                         ))}
                     </ul>
-                </section>
-                <section>
-                    <h2>Moja Adresa</h2>
+                </div>
+                <div className="profile-section">
+                    <h2 className="section-title">Moja Adresa</h2>
                     <Adresa />
-                </section>
-            </main>
+                </div>
+                </div>
+            </div>
             <Footer />
         </div>
     );
 };
-

@@ -1,20 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './css/ListaProizvoda.css'; // Import the CSS file
+import './css/ListaProizvoda.css'; 
 
 interface Product {
     id: number;
     naziv: string;
     cijena: number;
     slikaURL: string;
+    kategorija: string;
 }
 
-const ListaProizvoda: React.FC = () => {
+interface ListaProizvodaProps {
+    searchTerm: string;
+    category: string;
+    priceRange: string;
+}
+
+const ListaProizvoda: React.FC<ListaProizvodaProps> = ({ searchTerm, category, priceRange }) => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+
+    const token = JSON.parse(localStorage.getItem("korisnik") || '{}');
+    const isAuth = token?.accessToken || '';
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -41,12 +51,26 @@ const ListaProizvoda: React.FC = () => {
     }
 
     const handleClick = (id: number) => {
-        navigate(`/proizvod/${id}`);
+        if (isAuth) {
+            navigate(`/proizvod/${id}`);
+        } else {
+            navigate('/login');
+        }
     };
+
+    const filteredProducts = products.filter(product => {
+        const matchesSearchTerm = product.naziv.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesCategory = category === '' || product.kategorija === category;
+        const matchesPriceRange = priceRange === '' || (
+            product.cijena >= parseInt(priceRange.split('-')[0]) &&
+            product.cijena <= parseInt(priceRange.split('-')[1])
+        );
+        return matchesSearchTerm && matchesCategory && matchesPriceRange;
+    });
 
     return (
         <div className="product-list">
-            {products.map(product => (
+            {filteredProducts.map(product => (
                 <div key={product.id} className="product-item" onClick={() => handleClick(product.id)}>
                     <img src={product.slikaURL} alt={product.naziv} className="product-image" />
                     <h3 className="product-name">{product.naziv}</h3>

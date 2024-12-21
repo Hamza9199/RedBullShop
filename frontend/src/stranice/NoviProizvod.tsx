@@ -41,9 +41,10 @@ export const NoviProizvod = () => {
         };
 
         fetchProduct();
-    }, [id]);
+    }, [id, config]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        e.preventDefault();
         const { name, value } = e.target;
         setProizvod(prevState => ({
             ...prevState,
@@ -52,6 +53,7 @@ export const NoviProizvod = () => {
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
         if (e.target.files) {
             setFile(e.target.files[0]);
         }
@@ -60,40 +62,36 @@ export const NoviProizvod = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            if (file) {
-                const storageRef = ref(storage, `items/${new Date().getTime()}_${file.name}`);
-                const uploadTask = uploadBytesResumable(storageRef, file);
+            
+                const storageRef = ref(storage, `items/${new Date().getTime()}_${file?.name}`);
+                if (file) {
+                    const uploadTask = uploadBytesResumable(storageRef, file);
 
-                uploadTask.on(
-                    "state_changed",
-                    (snapshot) => {
-                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        console.log(`Upload je ${progress}% gotov`);
-                    },
-                    (error) => {
-                        console.error('Error uploading file:', error);
-                    },
-                    async () => {
-                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                        setProizvod(prev => ({ ...prev, slikaURL: downloadURL }));
-
-                        // Nastavi sa kreiranjem ili ažuriranjem proizvoda nakon upload-a
-                        if (id) {
-                            await axios.put(`http://localhost:3000/server/proizvodi/${id}`, { ...proizvod, slikaURL: downloadURL }, config);
-                        } else {
-                            await axios.post('http://localhost:3000/server/proizvodi', { ...proizvod, slikaURL: downloadURL }, config);
+                    uploadTask.on(
+                        "state_changed",
+                        (snapshot) => {
+                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            console.log(`Upload je ${progress}% gotov`);
+                        },
+                        (error) => {
+                            console.error('Error uploading file:', error);
+                        },
+                        async () => {
+                            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                            setProizvod(prev => ({ ...prev, slikaURL: downloadURL }));
+                            console.log('File available at', downloadURL);
+                            // Nastavi sa kreiranjem ili ažuriranjem proizvoda nakon upload-a
+                            if (id) {
+                                await axios.put(`http://localhost:3000/server/proizvodi/${id}`, { ...proizvod, slikaURL: downloadURL }, config);
+                            } else {
+                                console.log('Update proizvoda:', proizvod);
+                                await axios.post('http://localhost:3000/server/proizvodi', { ...proizvod, slikaURL: downloadURL }, config);
+                            history('/');
+                            }
+                
                         }
-                        history('/');
-                    }
-                );
-            } else {
-                if (id) {
-                    await axios.put(`http://localhost:3000/server/proizvodi/${id}`, proizvod, config);
-                } else {
-                    await axios.post('http://localhost:3000/server/proizvodi', proizvod, config);
+                    );   
                 }
-                history('/');
-            }
         } catch (error) {
             console.error('Error creating or updating product:', error);
         }
@@ -126,13 +124,13 @@ export const NoviProizvod = () => {
                 </div>
                 <div>
                     <label>Kategorija:</label>
-                    <input
-                        type="text"
-                        name="kategorija"
-                        value={proizvod.kategorija}
-                        onChange={handleChange}
-                        required
-                    />
+                    <select name="kategorija" value={proizvod.kategorija} onChange={handleChange} required>
+                        <option value="">Odaberi kategoriju</option>
+                        <option value="Igracke">Igracke</option>
+                        <option value="Odjeca">Odjeća</option>
+                        <option value="Obuca">Obuća</option>
+                        <option value="Ostalo">Ostalo</option>
+                    </select>
                 </div>
                 <div>
                     <label>Cijena:</label>

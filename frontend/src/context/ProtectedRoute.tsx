@@ -8,7 +8,13 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
   const isLoggedIn = localStorage.getItem('isAuthenticated');
 
-  return isLoggedIn ? element : <Navigate to="/login" replace />;
+  if (isLoggedIn === null) {
+    return <Navigate to="/login" />;
+  }
+  else {
+    return element;
+  }
+
 };
 
 export default ProtectedRoute;

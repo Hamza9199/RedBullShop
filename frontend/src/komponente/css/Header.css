@@ -1,9 +1,9 @@
 #main-header {
-    background: linear-gradient(1deg, #333d76, #000000);
+    background: linear-gradient(1deg, #1b203f, #000000);
     color: white;
     padding: 20px 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    position: fixed;
+    position:absolute;
     top: 0;
     left: 0;
     right: 0;

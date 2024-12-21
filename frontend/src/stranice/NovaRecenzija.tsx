@@ -11,8 +11,10 @@ export const NovaRecenzija = () => {
         throw new Error('No token found');
     }
 
+    const proizvodId = JSON.parse(localStorage.getItem('proizvod') || '{}');
+
     const [recenzija, setRecenzija] = useState({
-        proizvodId: '',
+        proizvodId: proizvodId|| '',
         ocjena: 1,
         komentar: '',
         korisnikId: token.id || ''
@@ -69,16 +71,7 @@ export const NovaRecenzija = () => {
         <div>
             <h1>{id ? 'Ažuriraj Recenziju' : 'Nova Recenzija'}</h1>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Proizvod ID:</label>
-                    <input
-                        type="text"
-                        name="proizvodId"
-                        value={recenzija.proizvodId}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
+                
                 <div>
                     <label>Ocjena:</label>
                     <input
