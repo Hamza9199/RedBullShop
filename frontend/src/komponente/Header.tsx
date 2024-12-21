@@ -16,11 +16,15 @@ const Header: React.FC = () => {
         navigate('/login');
     }
 
+    const handleHome = () => {
+        navigate('/');
+    }
+
     if (isAuth) {
         return (
             <header id="main-header">
                 <div className="header-container">
-                    <h1 className="header-title">RedBull Online Prodavnica</h1>
+                    <h1 onClick={handleHome} className="header-title">RedBull Online Prodavnica</h1>
                     <nav className="header-nav">
                         <ul className="nav-list">
                             <li className="nav-item"><a href="/" className="nav-link">Home</a></li>
