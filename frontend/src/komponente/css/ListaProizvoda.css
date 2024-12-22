@@ -42,3 +42,24 @@
     margin: 10px 0;
     color: #d7d5d5;
 }
+
+.sliderArrow {
+    width: 50px;
+    height: 100%;
+    background-color: rgba(22, 22, 22, 0.5);
+    color: white;
+    position: absolute;
+    z-index: 11;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    cursor: pointer;
+  }
+  
+  .sliderArrow.left {
+    left: 0;
+  }
+
+  .sliderArrow.right {
+    right: 0;
+  }

@@ -1,19 +1,24 @@
+
+.main-content {
+    flex: 1;
+}
+
 .footer {
     background: linear-gradient(1deg, #1b203f, #000000);
     color: white;
     padding: 15px 5px;
-    position: absolute;
+    position:absolute;
     left: 0;
     right: 0;
-    bottom: auto;
+    margin-top: calc(100vh - 100px);
 }
-.muzikaSection  {
+
+.muzikaSection {
     margin-top: 50px;
     border: none;
     border-radius: 5px;
     overflow: hidden;
 }
-
 
 .footerContent {
     display: flex;

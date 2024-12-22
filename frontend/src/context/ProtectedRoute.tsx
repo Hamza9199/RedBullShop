@@ -6,9 +6,13 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
-  const isLoggedIn = localStorage.getItem('isAuthenticated');
+  const isLoggedIn = JSON.parse(localStorage.getItem("korisnik") || 'null') || {};
 
-  if (isLoggedIn === null) {
+  if(isLoggedIn.accessToken === undefined || isLoggedIn.accessToken === null) {
+    return <Navigate to="/login" />;
+  }
+
+  if (!isLoggedIn.accessToken || !isLoggedIn) {
     return <Navigate to="/login" />;
   }
   else {

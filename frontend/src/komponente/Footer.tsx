@@ -5,7 +5,13 @@ const Footer: React.FC = () => {
   const songs = [
     "jG2AciJ3zHY", 
     "jKlL6wvGrbc", 
-    "tMSWpIKflrE", 
+    "tMSWpIKflrE",
+    "d8y3QCiI4_0", 
+    "Sbk6BZb9tKk",
+    "U6n2NcJ7rLc",
+    "hSRW0xHalwo",
+    "0Y2PPxrBJt8",
+
   ];
 
   const [randomIndex, setRandomIndex] = React.useState<number>(0);
@@ -27,15 +33,15 @@ const Footer: React.FC = () => {
           <p>Telefon: +387999888</p>
         </div>
         <div className="muzikaSection">
-          <iframe
+            <iframe
             key={randomIndex}
-            src={`https://www.youtube.com/embed/${songs[randomIndex]}?autoplay=1&loop=1&enablejsapi=1`}
+            src={`https://www.youtube.com/embed/${songs[randomIndex]}?autoplay=1&loop=1&playlist=${songs[randomIndex]}`}
             width="300"
             height="80"
             frameBorder="0"
             allow="autoplay; encrypted-media"
             title="Background Music"                  
-          ></iframe>
+            ></iframe>
         </div>
         <div className="linkSection">
           <h3>Quick Links</h3>

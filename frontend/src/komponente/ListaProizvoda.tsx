@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './css/ListaProizvoda.css'; 
 
+
 interface Product {
     id: number;
     naziv: string;
-    cijena: number;
+    cijena: number; 
     slikaURL: string;
     kategorija: string;
 }
@@ -21,6 +22,7 @@ const ListaProizvoda: React.FC<ListaProizvodaProps> = ({ searchTerm, category, p
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const listRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
 
     const token = JSON.parse(localStorage.getItem("korisnik") || '{}');
@@ -54,7 +56,9 @@ const ListaProizvoda: React.FC<ListaProizvodaProps> = ({ searchTerm, category, p
         if (isAuth) {
             navigate(`/proizvod/${id}`);
         } else {
-            navigate('/login');
+            if (window.confirm('Morate biti prijavljeni da biste vidjeli detalje proizvoda. Želite li se prijaviti?')) {
+                navigate('/login');
+            }
         }
     };
 
@@ -68,8 +72,12 @@ const ListaProizvoda: React.FC<ListaProizvodaProps> = ({ searchTerm, category, p
         return matchesSearchTerm && matchesCategory && matchesPriceRange;
     });
 
+  
+    
+
     return (
-        <div className="product-list">
+        <div className="product-list" ref={listRef}>
+             
             {filteredProducts.map(product => (
                 <div key={product.id} className="product-item" onClick={() => handleClick(product.id)}>
                     <img src={product.slikaURL} alt={product.naziv} className="product-image" />
@@ -77,6 +85,7 @@ const ListaProizvoda: React.FC<ListaProizvodaProps> = ({ searchTerm, category, p
                     <p className="product-price">${product.cijena.toFixed(2)}</p>
                 </div>
             ))}
+            
         </div>
     );
 };
