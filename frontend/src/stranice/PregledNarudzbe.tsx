@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../komponente/Header';
 import Footer from '../komponente/Footer';
+import './css/PregledNarudzbe.css';
 
 interface Narudzba {
     _id: string;
@@ -10,7 +11,7 @@ interface Narudzba {
     adresaId: number;
     ukupnaCijena: number;
     statusNarudzbe: string;
-    placanjeMetoda: string;
+    placanjeMetoda: string; 
     placanjeStatus: string;
     proizvodi: {
         _id: string;
@@ -48,9 +49,6 @@ const PregledNarudzbe: React.FC = () => {
         fetchNarudzba();
     }, [id]);
 
-    const handleUpdate = async () => {
-        navigate(`/azuriraj-narudzbu/${id}`);
-    };
 
     const handleDelete = async () => {
         try {
@@ -62,28 +60,27 @@ const PregledNarudzbe: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="pregled-narudzbe-container" id="pregled-narudzbe-container">
             <Header />
-            <main>
-                <h1>Pregled Narudžbe</h1>
+            <main className="pregled-narudzbe-main" id="pregled-narudzbe-main">
+                <h1 className="pregled-narudzbe-title" id="pregled-narudzbe-title">Pregled Narudžbe</h1>
                 {narudzba && (
-                    <div>
-                        <p>Ukupna cijena: {narudzba.ukupnaCijena}</p>
-                        <p>Status narudžbe: {narudzba.statusNarudzbe}</p>
-                        <p>Način plaćanja: {narudzba.placanjeMetoda}</p>
-                        <p>Status plaćanja: {narudzba.placanjeStatus}</p>
-                        <h2>Proizvodi</h2>
-                        <ul>
+                    <div className="narudzba-details" id="narudzba-details">
+                        <p className="narudzba-ukupna-cijena" id="narudzba-ukupna-cijena">Ukupna cijena: {narudzba.ukupnaCijena}</p>
+                        <p className="narudzba-status" id="narudzba-status">Status narudžbe: {narudzba.statusNarudzbe}</p>
+                        <p className="narudzba-placanje-metoda" id="narudzba-placanje-metoda">Način plaćanja: {narudzba.placanjeMetoda}</p>
+                        <p className="narudzba-placanje-status" id="narudzba-placanje-status">Status plaćanja: {narudzba.placanjeStatus}</p>
+                        <h2 className="narudzba-proizvodi-title" id="narudzba-proizvodi-title">Proizvodi</h2>
+                        <ul className="narudzba-proizvodi-list" id="narudzba-proizvodi-list">
                             {narudzba.proizvodi.map(proizvod => (
-                                <li key={proizvod._id}>
-                                    <p>Naziv: {proizvod.naziv}</p>
-                                    <p>Količina: {proizvod.kolicina}</p>
-                                    <p>Cijena: {proizvod.cijena}</p>
+                                <li key={proizvod._id} className="narudzba-proizvod-item" id={`narudzba-proizvod-item-${proizvod._id}`}>
+                                    <p className="proizvod-naziv" id={`proizvod-naziv-${proizvod._id}`}>Naziv: {proizvod.naziv}</p>
+                                    <p className="proizvod-kolicina" id={`proizvod-kolicina-${proizvod._id}`}>Količina: {proizvod.kolicina}</p>
+                                    <p className="proizvod-cijena" id={`proizvod-cijena-${proizvod._id}`}>Cijena: {proizvod.cijena}</p>
                                 </li>
                             ))}
                         </ul>
-                        <button onClick={handleUpdate}>Ažuriraj Narudžbu</button>
-                        <button onClick={handleDelete}>Obriši Narudžbu</button>
+                        <button className="obrisi-narudzbu-button" id="obrisi-narudzbu-button" onClick={handleDelete}>Obriši Narudžbu</button>
                     </div>
                 )}
             </main>

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../komponente/Header';
 import Footer from '../komponente/Footer';
+import './css/UpdateKorisnika.css';
 
 interface Korisnik {
     username: string;
@@ -57,49 +58,52 @@ const UpdateKorisnik: React.FC = () => {
         }
     };
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>{error}</p>;
+    if (loading) return <p className="loading" id="loading">Loading...</p>;
+    if (error) return <p className="error" id="error">{error}</p>;
 
     return (
-        <div>
+        <div className="update-korisnik-container" id="update-korisnik-container">
             <Header />
-            <main>
-                <h1>Update Profil</h1>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor="username">Username:</label>
+            <main className="update-korisnik-main" id="update-korisnik-main">
+                <h1 className="update-korisnik-title" id="update-korisnik-title">Update Profil</h1>
+                <form className="update-korisnik-form" id="update-korisnik-form" onSubmit={handleSubmit}>
+                    <div className="form-group" id="form-group-username">
+                        <label htmlFor="username" className="form-label" id="form-label-username">Username:</label>
                         <input
                             type="text"
                             id="username"
                             name="username"
+                            className="form-input"
                             value={korisnik.username}
                             onChange={handleChange}
                             required
                         />
                     </div>
-                    <div>
-                        <label htmlFor="email">Email:</label>
+                    <div className="form-group" id="form-group-email">
+                        <label htmlFor="email" className="form-label" id="form-label-email">Email:</label>
                         <input
                             type="email"
                             id="email"
                             name="email"
+                            className="form-input"
                             value={korisnik.email}
                             onChange={handleChange}
                             required
                         />
                     </div>
-                    <div>
-                        <label htmlFor="password">Password:</label>
+                    <div className="form-group" id="form-group-password">
+                        <label htmlFor="password" className="form-label" id="form-label-password">Password:</label>
                         <input
                             type="password"
                             id="password"
                             name="password"
+                            className="form-input"
                             value={korisnik.password}
                             onChange={handleChange}
                             required
                         />
                     </div>
-                    <button type="submit">Update</button>
+                    <button type="submit" className="form-button" id="form-button-submit">Update</button>
                 </form>
             </main>
             <Footer />

@@ -1,0 +1,61 @@
+.update-narudzbe-container {
+    background-color: #121212;
+    color: #ffffff;
+    padding: 100px;
+}
+
+.update-narudzbe-main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 100px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+}
+
+.update-narudzbe-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #bb86fc;
+}
+
+.update-narudzbe-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.update-narudzbe-label {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    color: #ffffff;
+}
+
+.update-narudzbe-value {
+    margin-top: 5px;
+    font-size: 1em;
+    color: #03dac6;
+}
+
+.update-narudzbe-select {
+    margin-top: 5px;
+    padding: 10px;
+    font-size: 1em;
+    background-color: #2c2c2c;
+    color: #ffffff;
+    border: 1px solid #bb86fc;
+    border-radius: 4px;
+}
+
+.update-narudzbe-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: #bb86fc;
+    color: #000000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.update-narudzbe-button:hover {
+    background-color: #3700b3;
+}

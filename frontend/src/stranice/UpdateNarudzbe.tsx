@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../komponente/Header';
 import Footer from '../komponente/Footer';
+import './css/UpdateNarudzbe.css';
 
 interface Narudzba {
     _id: string;
@@ -68,38 +69,38 @@ const UpdateNarudzbe: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="update-narudzbe-container" id="update-narudzbe-container">
             <Header />
-            <main>
-                <h1>Ažuriraj Narudžbu</h1>
+            <main className="update-narudzbe-main" id="update-narudzbe-main">
+                <h1 className="update-narudzbe-title" id="update-narudzbe-title">Ažuriraj Narudžbu</h1>
                 {narudzba && (
-                    <form onSubmit={handleSubmit}>
-                        <label>
+                    <form className="update-narudzbe-form" id="update-narudzbe-form" onSubmit={handleSubmit}>
+                        <label className="update-narudzbe-label" id="update-narudzbe-label-ukupna-cijena">
                             Ukupna cijena:
-                            <p>{narudzba.ukupnaCijena} KM</p>
+                            <p className="update-narudzbe-value" id="update-narudzbe-value-ukupna-cijena">{narudzba.ukupnaCijena} KM</p>
                         </label>
-                        <label>
+                        <label className="update-narudzbe-label" id="update-narudzbe-label-status-narudzbe">
                             Status narudžbe:
-                            <select name="statusNarudzbe" value={narudzba.statusNarudzbe} onChange={handleChange}>
+                            <select className="update-narudzbe-select" id="update-narudzbe-select-status-narudzbe" name="statusNarudzbe" value={narudzba.statusNarudzbe} onChange={handleChange}>
                                 <option value="Na čekanju">Na čekanju</option>
                                 <option value="Obrađuje se">Obrađuje se</option>
                                 <option value="Isporučeno">Isporučeno</option>
                                 <option value="Otkazano">Otkazano</option>
                             </select>
                         </label>
-                        <label>
+                        <label className="update-narudzbe-label" id="update-narudzbe-label-placanje-metoda">
                             Način plaćanja:
-                            <p>{narudzba.placanjeMetoda}</p>
+                            <p className="update-narudzbe-value" id="update-narudzbe-value-placanje-metoda">{narudzba.placanjeMetoda}</p>
                         </label>
-                        <label>
+                        <label className="update-narudzbe-label" id="update-narudzbe-label-placanje-status">
                             Status plaćanja:
-                            <select name="placanjeStatus" value={narudzba.placanjeStatus} onChange={handleChange}>
+                            <select className="update-narudzbe-select" id="update-narudzbe-select-placanje-status" name="placanjeStatus" value={narudzba.placanjeStatus} onChange={handleChange}>
                                 <option value="Čeka se">Čeka se</option>
                                 <option value="Uspješno">Uspješno</option>
                                 <option value="Neuspješno">Neuspješno</option>
                             </select>
                         </label>
-                        <button type="submit">Ažuriraj</button>
+                        <button className="update-narudzbe-button" id="update-narudzbe-button" type="submit">Ažuriraj</button>
                     </form>
                 )}
             </main>

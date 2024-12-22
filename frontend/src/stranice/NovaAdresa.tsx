@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import Footer from "../komponente/Footer"
 import Header from "../komponente/Header"
+import './css/NovaAdresa.css';
 
 export const NovaAdresa = () => {
     const [adresa, setAdresa] = useState({
@@ -66,50 +67,58 @@ export const NovaAdresa = () => {
     return (
         <>
         <Header />
-        <div>
-            <h1>{id ? 'Ažuriraj Adresu' : 'Nova Adresa'}</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Ulica:</label>
+        <div className="container" id="nova-adresa-container">
+            <h1 id="form-title">{id ? 'Ažuriraj Adresu' : 'Nova Adresa'}</h1>
+            <form onSubmit={handleSubmit} id="adresa-form">
+                <div className="form-group" id="ulica-group">
+                    <label className="label" htmlFor="ulica">Ulica:</label>
                     <input
                         type="text"
                         name="ulica"
+                        id="ulica"
+                        className="input"
                         value={adresa.ulica}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <div>
-                    <label>Grad:</label>
+                <div className="form-group" id="grad-group">
+                    <label className="label" htmlFor="grad">Grad:</label>
                     <input
                         type="text"
                         name="grad"
+                        id="grad"
+                        className="input"
                         value={adresa.grad}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <div>
-                    <label>Poštanski Broj:</label>
+                <div className="form-group" id="postanskiBroj-group">
+                    <label className="label" htmlFor="postanskiBroj">Poštanski Broj:</label>
                     <input
                         type="text"
                         name="postanskiBroj"
+                        id="postanskiBroj"
+                        className="input"
                         value={adresa.postanskiBroj}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <div>
-                    <label>Država:</label>
+                <div className="form-group" id="drzava-group">
+                    <label className="label" htmlFor="drzava">Država:</label>
                     <input
                         type="text"
                         name="drzava"
+                        id="drzava"
+                        className="input"
                         value={adresa.drzava}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <button type="submit">{id ? 'Ažuriraj' : 'Kreiraj'}</button>
+                <button type="submit" className="button" id="submit-button">{id ? 'Ažuriraj' : 'Kreiraj'}</button>
             </form>
         </div>
         <Footer />

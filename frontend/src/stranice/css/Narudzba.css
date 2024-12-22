@@ -1,0 +1,126 @@
+
+.narudzba-container {
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: #1e1e2e;
+    color: #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    position:absolute;
+    right: 10vh;
+    left: 10vh;
+    top: 10vh;
+}
+
+.narudzba-title {
+    font-size: 2rem;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.ukupna-cijena {
+    font-size: 1.5rem;
+    color: #50fa7b;
+    text-align: center;
+    margin: 1rem 0;
+
+}
+
+.narudzba-list {
+    list-style: none;
+    padding-left: 100px;
+    padding-right: 100px;
+    margin: 0;
+
+}
+
+.narudzba-item {
+    background-color: #2a2a40;
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row ;
+    gap: 10px;
+    justify-content: center;
+}
+
+.proizvod-naziv,
+.proizvod-cijena,
+.proizvod-kolicina {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.adresa-info {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #28283e;
+    border-radius: 5px;
+    color: #8be9fd;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.no-adresa {
+    color: #ff5555;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.placanje-container {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.placanje-select {
+    background-color: #2a2a40;
+    color: #e0e0e0;
+    border: 1px solid #44475a;
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.narudzba-container-button {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-left: 500px;
+    padding-right: 500px;
+}
+
+.narudzba-button {
+    background-color: #ff5555;
+    color: #e0e0e0;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 2rem;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.narudzba-button:disabled {
+    background-color: #44475a;
+    cursor: not-allowed;
+}
+
+.narudzba-button:hover:not(:disabled) {
+    background-color: #ff6e6e;
+}
+
+.korpa-empty {
+    text-align: center;
+    color: #bd93f9;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+}

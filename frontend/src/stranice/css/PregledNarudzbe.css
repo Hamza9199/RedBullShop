@@ -1,0 +1,82 @@
+
+
+.pregled-narudzbe-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 80vh;
+}
+
+.pregled-narudzbe-main {
+    flex: 1;
+    padding: 20px;
+}
+
+.pregled-narudzbe-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #bb86fc;
+}
+
+.narudzba-details {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.narudzba-ukupna-cijena,
+.narudzba-status,
+.narudzba-placanje-metoda,
+.narudzba-placanje-status {
+    margin-bottom: 10px;
+}
+
+.narudzba-proizvodi-title {
+    font-size: 1.5rem;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #bb86fc;
+}
+
+.narudzba-proizvodi-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.narudzba-proizvod-item {
+    background-color: #2c2c2c;
+    padding: 10px;
+    padding-right: 200px;
+    padding-left: 200px ;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+}
+
+.proizvod-naziv,
+.proizvod-kolicina,
+.proizvod-cijena {
+    margin: 5px 0;
+}
+
+.azuriraj-narudzbu-button,
+.obrisi-narudzbu-button {
+    background-color: #bb86fc;
+    color: #121212;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    margin-right: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.azuriraj-narudzbu-button:hover,
+.obrisi-narudzbu-button:hover {
+    background-color: #3700b3;
+}

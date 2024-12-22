@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import Footer from "../komponente/Footer"
 import Header from "../komponente/Header"
+import './css/NovaRecenzija.css';
 
 export const NovaRecenzija = () => {
     const token = JSON.parse(localStorage.getItem("korisnik") || '{}');
@@ -14,7 +15,7 @@ export const NovaRecenzija = () => {
     const proizvodId = JSON.parse(localStorage.getItem('proizvod') || '{}');
 
     const [recenzija, setRecenzija] = useState({
-        proizvodId: proizvodId|| '',
+        proizvodId: proizvodId || '',
         ocjena: 1,
         komentar: '',
         korisnikId: token.id || ''
@@ -31,7 +32,7 @@ export const NovaRecenzija = () => {
         const fetchRecenzija = async () => {
             if (id) {
                 try {
-                    const response = await axios.get(`http://localhost:3000/server/recenzije/${id}/moj`, config);
+                    const response = await axios.get(`http://localhost:3000/server/recenzije/${id}`, config);
                     setRecenzija(response.data);
                 } catch (error) {
                     console.error('Error fetching review:', error);
@@ -68,15 +69,16 @@ export const NovaRecenzija = () => {
     return (
         <>
         <Header />
-        <div>
-            <h1>{id ? 'Ažuriraj Recenziju' : 'Nova Recenzija'}</h1>
-            <form onSubmit={handleSubmit}>
-                
-                <div>
-                    <label>Ocjena:</label>
+        <div className="container" id="nova-recenzija-container">
+            <h1 id="form-title">{id ? 'Ažuriraj Recenziju' : 'Nova Recenzija'}</h1>
+            <form onSubmit={handleSubmit} id="recenzija-form">
+                <div className="form-group" id="ocjena-group">
+                    <label className="label" htmlFor="ocjena">Ocjena:</label>
                     <input
                         type="number"
                         name="ocjena"
+                        id="ocjena"
+                        className="input"
                         value={recenzija.ocjena}
                         onChange={handleChange}
                         min="1"
@@ -84,15 +86,17 @@ export const NovaRecenzija = () => {
                         required
                     />
                 </div>
-                <div>
-                    <label>Komentar:</label>
+                <div className="form-group" id="komentar-group">
+                    <label className="label" htmlFor="komentar">Komentar:</label>
                     <textarea
                         name="komentar"
+                        id="komentar"
+                        className="textarea"
                         value={recenzija.komentar}
                         onChange={handleChange}
                     />
                 </div>
-                <button type="submit">{id ? 'Ažuriraj' : 'Kreiraj'}</button>
+                <button type="submit" className="button" id="submit-button">{id ? 'Ažuriraj' : 'Kreiraj'}</button>
             </form>
         </div>
         <Footer />

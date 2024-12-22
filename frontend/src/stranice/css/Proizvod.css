@@ -1,0 +1,102 @@
+#proizvod-container {
+    padding: 160px;
+    background-color: #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    top: 10vh;
+    color: #f9f9f9;
+}
+
+.proizvod-details {
+    margin-bottom: 20px;
+    color: #f9f9f9;
+}
+
+#proizvod-image {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-right: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#proizvod-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#proizvod-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #f9f9f9;
+    margin-bottom: 10px;
+}
+
+#proizvod-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+#proizvod-description {
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+#proizvod-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
+}
+
+#proizvod-button:hover {
+    background-color: #0056b3;
+}
+
+.recenzije-container {
+    margin-top: 30px;
+    color: #f9f9f9;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; 
+    padding: 20px;
+    cursor: pointer;
+}
+
+#recenzija-item:hover {
+    background-color: #444;
+}
+
+#no-recenzije {
+    font-size: 1rem;
+    color: #f9f9f9;
+    text-align: center;
+}
+
+#recenzija-button-create:hover,
+#recenzija-button-update:hover {
+    background-color: #218838;
+}
+
+#loading {
+    font-size: 1.2rem;
+    text-align: center;
+    color: #007bff;
+    margin-top: 50px;
+}

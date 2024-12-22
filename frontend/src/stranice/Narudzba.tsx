@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Footer from "../komponente/Footer"
-import Header from "../komponente/Header"
+import Footer from '../komponente/Footer';
+import Header from '../komponente/Header';
+import './css/Narudzba.css';
 
 interface Proizvod {
     proizvodId: number;
@@ -45,7 +46,7 @@ const Narudzba: React.FC = () => {
                     'http://localhost:3000/server/korpe',
                     {
                         headers: { Authorization: `Bearer ${token.accessToken}` },
-                        params: { id: token.id }
+                        params: { id: token.id },
                     }
                 );
                 setKorpa(response.data);
@@ -61,7 +62,7 @@ const Narudzba: React.FC = () => {
                 const response = await axios.get(
                     'http://localhost:3000/server/adrese',
                     {
-                        headers: { Authorization: `Bearer ${token.accessToken}` }
+                        headers: { Authorization: `Bearer ${token.accessToken}` },
                     }
                 );
                 if (response.data.length > 0) {
@@ -83,22 +84,21 @@ const Narudzba: React.FC = () => {
                 {
                     korisnikId: token?.id,
                     adresaId: adresa?.id,
-                    ukupnaCijena: korpa?.ukupnaCijena,  
+                    ukupnaCijena: korpa?.ukupnaCijena,
                     placanjeMetoda: placanje.toString(),
                     proizvodi: korpa?.proizvodi,
                 },
                 {
-                    headers: { Authorization: `Bearer ${token.accessToken}` }
+                    headers: { Authorization: `Bearer ${token.accessToken}` },
                 }
             );
             console.log('Narudzba uspjesna:', response.data);
 
-            // Obrisi korpu
             await axios.delete(
                 'http://localhost:3000/server/korpe',
                 {
                     headers: { Authorization: `Bearer ${token.accessToken}` },
-                    data: { id: token.id }
+                    data: { id: token.id },
                 }
             );
 
@@ -114,48 +114,58 @@ const Narudzba: React.FC = () => {
 
     return (
         <>
-        <Header />
-        <div>
-            <h1>Narudzba</h1>
-            {korpa && korpa.proizvodi.length > 0 ? (
-                <>
-                    <ul>
-                        {korpa.proizvodi.map((proizvod) => (
-                            <li key={proizvod.proizvodId}>
-                                <p>Naziv: {proizvod.naziv}</p>
-                                <p>Cijena: {proizvod.cijena} KM</p>
-                                <p>Količina: {proizvod.kolicina}</p>
-                            </li>
-                        ))}
-                    </ul>
-                    <h2>Ukupna Cijena: {korpa.ukupnaCijena} KM</h2>
-                    {adresa ? (
-                        <div>
-                            <p>Adresa: {adresa.ulica}, {adresa.grad}, {adresa.postanskiBroj}, {adresa.drzava}</p>
-                        </div>
-                    ) : (
-                        <p>Nema dostupne adrese.</p>
-                    )}
-                    <div>
-                        <label>
-                            Metoda Plaćanja:
-                            <select
-                                value={placanje}
-                                onChange={(e) => setPlacanje(e.target.value)}
+            <Header />
+            <div className="narudzba-container">
+                <h1 className="narudzba-title">Narudzba</h1>
+                {korpa && korpa.proizvodi.length > 0 ? (
+                    <>
+                        <ul className="narudzba-list">
+                            {korpa.proizvodi.map((proizvod) => (
+                                <li className="narudzba-item" key={proizvod.proizvodId}>
+                                    <p className="proizvod-naziv">Naziv: {proizvod.naziv}    -</p>
+                                    <p className="proizvod-cijena">Cijena: {proizvod.cijena} KM    -</p>
+                                    <p className="proizvod-kolicina">Količina: {proizvod.kolicina}</p>
+                                </li>
+                            ))}
+                        </ul>
+                        <div className="narudzba-footer">
+                            <h2 className="ukupna-cijena">Ukupna Cijena: {korpa.ukupnaCijena} KM</h2>
+                            {adresa ? (
+                                <div className="adresa-info">
+                                    <p>Adresa: {adresa.ulica}, {adresa.grad}, {adresa.postanskiBroj}, {adresa.drzava}</p>
+                                </div>
+                            ) : (
+                                <p className="no-adresa">Nema dostupne adrese.</p>
+                            )}
+                            <div className="placanje-container">
+                                <label htmlFor="placanje-select">Metoda Plaćanja:</label>
+                                <select
+                                    id="placanje-select"
+                                    className="placanje-select"
+                                    value={placanje}
+                                    onChange={(e) => setPlacanje(e.target.value)}
+                                >
+                                    <option value="Kartica">Kartica</option>
+                                    <option value="PayPal">PayPal</option>
+                                    <option value="Pouzećem">Pouzećem</option>
+                                </select>
+                            </div>
+                            <div className="narudzba-container-button">
+                            <button
+                                className="narudzba-button"
+                                onClick={handleOrderSubmit}
+                                disabled={!adresa}
                             >
-                                <option value="Kartica">Kartica</option>
-                                <option value="PayPal">PayPal</option>
-                                <option value="Pouzećem">Pouzećem</option>
-                            </select>
-                        </label>
-                    </div>
-                    <button onClick={handleOrderSubmit} disabled={!adresa}>Potvrdi Narudzbu</button>
-                </>
-            ) : (
-                <p>Vaša korpa je prazna.</p>
-            )}
-        </div>
-        <Footer />
+                                Potvrdi Narudzbu
+                            </button>
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <p className="korpa-empty">Vaša korpa je prazna.</p>
+                )}
+            </div>
+            <Footer />
         </>
     );
 };

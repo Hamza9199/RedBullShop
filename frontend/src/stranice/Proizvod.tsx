@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../komponente/Header';
 import Footer from '../komponente/Footer';
+import './css/Proizvod.css';
 
 export const Proizvod: React.FC = () => {
     interface Proizvod {
@@ -125,66 +126,64 @@ export const Proizvod: React.FC = () => {
         }
     };
     
-    
-
     if (isLoading) {
-        return <p>Učitavanje...</p>;
+        return <p className="loading" id="loading">Učitavanje...</p>;
     }
 
     const handleGoToCreateReview = () => {
         localStorage.setItem('proizvod', JSON.stringify(proizvod?.id));
-
         navigate(`/nova-recenzija`);
     };
 
     const handleGoToUpdateReview = () => {
-        const reviewId = recenzije.find((recenzija) => recenzija.korisnikId === userId)?.id;
-        if (!reviewId) {
-            console.error('Nemate recenziju za ažuriranje.');
-            return;
-        }
-        localStorage.removeItem('proizvod');
-        localStorage.setItem('proizvod', JSON.stringify(proizvod?.id));
-
-        navigate(`/update-recenzija/${reviewId}`);
+        const recenzija = recenzije.find((recenzija: Recenzija) => String(recenzija.korisnikId) === String(userId));
+        const id = recenzija?.id;
+        navigate(`/update-recenzija/${id}`);
     };
 
     return (
         <>
-        <Header />
-        <div>
-            {proizvod && (
-                <>
-                    <h1>{proizvod.naziv}</h1>
-                    <img src={proizvod.slikaURL} alt={proizvod.naziv} />
-                    <p>{proizvod.opis}</p>
-                    <p>{proizvod.cijena} KM</p>
-                    <button onClick={handleAddToCart}>Dodaj u Korpu</button>
-                    <h2>Recenzije</h2>
-                    {recenzije.length > 0 ? (
-                        recenzije.map((recenzija) => (
-                            <div
-                                key={recenzija.id}
-                                onClick={() => navigate(`/recenzija/${recenzija.id}`)}
-                            >
-                                <p>Ocjena: {recenzija.ocjena}</p>
-                                <p>Komentar: {recenzija.komentar}</p>
-                            </div>
-                        ))
-                    ) : (
-                        <p>Još uvijek nema recenzija.</p>
-                    )}
-                    {hasReviewed ? (
-                        <button onClick={() => handleGoToUpdateReview()}>
-                            Ažuriraj Recenziju
-                        </button>
-                    ) : (
-                        <button onClick={() => handleGoToCreateReview()}>Dodaj Recenziju</button>
-                    )}
-                </>
-            )}
-        </div>
-        <Footer />
+            <Header />
+            <div className="proizvod-container" id="proizvod-container">
+                {proizvod && (
+                    <>
+                        <img src={proizvod.slikaURL} alt={proizvod.naziv} className="proizvod-image" id="proizvod-image" />
+                        <div className="proizvod-details">
+                            <h1 className="proizvod-title" id="proizvod-title">{proizvod.naziv}</h1>
+                            <p className="proizvod-description" id="proizvod-description">{proizvod.opis}</p>
+                            <p className="proizvod-price" id="proizvod-price">{proizvod.cijena} KM</p>
+                            <button onClick={handleAddToCart} className="proizvod-button" id="proizvod-button">Dodaj u Korpu</button>
+                            
+                        </div>
+                        <div className="recenzije-container" >
+                            {recenzije.length > 0 ? (
+                                recenzije.map((recenzija) => (
+                                    <div
+                                        key={recenzija.id}
+                                        onClick={() => navigate(`/recenzija/${recenzija.id}`)}
+                                        className="recenzija-item"
+                                        
+                                    >
+                                        <p className="recenzija-ocjena2" >Ocjena: {recenzija.ocjena}</p>
+                                        <p className="recenzija-komentar2">{recenzija.komentar}</p>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="no-recenzije" id="no-recenzije">Još uvijek nema recenzija.</p>
+                            )}
+                            {hasReviewed ? (
+                                <button onClick={handleGoToUpdateReview} className="recenzija-button" id="recenzija-button-update">
+                                    Ažuriraj Recenziju
+                                </button>
+                            ) : (
+                                <button onClick={handleGoToCreateReview} className="recenzija-button" id="recenzija-button-create">Dodaj Recenziju</button>
+                            )}
+                        </div>
+                    </>
+                )}
+            </div>
+            <Footer />
         </>
     );
+    
 };
