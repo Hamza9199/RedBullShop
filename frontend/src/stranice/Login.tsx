@@ -1,25 +1,25 @@
 import React, { useState, useContext } from 'react';
-import {loginCall} from "../context/authContext/serverCallAuth";
-import {AuthContext} from "../context/authContext/AuthContext";
+import { loginCall } from "../context/authContext/serverCallAuth";
+import { AuthContext } from "../context/authContext/AuthContext";
 import { useNavigate } from 'react-router-dom';
+import './css/Login.css';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const {dispatch} = useContext(AuthContext);
+    const { dispatch } = useContext(AuthContext);
     const navigate = useNavigate();
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         setError('');
         try {
-            const res = await loginCall({email, password}, dispatch);
+            const res = await loginCall({ email, password }, dispatch);
             if (res) {
                 navigate('/');
             } else {
                 setError('Login neuspješan, provjerite podatke');
             }
-            
         } catch (err) {
             console.log(err);
             setError('Login neuspješan, provjerite podatke');
@@ -27,10 +27,10 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', width: '300px' }}>
+        <div className="login-container">
+            <form onSubmit={handleSubmit} className="login-form">
                 <h2>Login</h2>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
+                {error && <p className="error-message">{error}</p>}
                 <label>
                     Email:
                     <input
@@ -38,7 +38,7 @@ const Login: React.FC = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        style={{ marginBottom: '10px', padding: '8px' }}
+                        className="input-field"
                     />
                 </label>
                 <label>
@@ -48,10 +48,10 @@ const Login: React.FC = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        style={{ marginBottom: '10px', padding: '8px' }}
+                        className="input-field"
                     />
                 </label>
-                <button type="submit" style={{ padding: '10px', backgroundColor: '#007BFF', color: 'white', border: 'none', borderRadius: '4px' }}>
+                <button type="submit" className="login-button">
                     Login
                 </button>
             </form>

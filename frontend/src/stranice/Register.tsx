@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './css/Register.css';
 
 const Register: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -13,14 +14,14 @@ const Register: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         setError('');
-    
+
         try {
             const response = await axios.post('http://localhost:3000/server/autentifikacija/registracija', {
                 username,
                 email,
                 password
             });
-    
+
             console.log('Registration successful:', response.data);
             navigate('/login');
         } catch (err) {
@@ -30,9 +31,9 @@ const Register: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="register-container">
             <h2>Register</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="register-form">
                 <div>
                     <label htmlFor="username">Username:</label>
                     <input
@@ -40,6 +41,8 @@ const Register: React.FC = () => {
                         id="username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
+                        required
+                        className="input-field2"
                     />
                 </div>
                 <div>
@@ -49,6 +52,8 @@ const Register: React.FC = () => {
                         id="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="input-field2"
                     />
                 </div>
                 <div>
@@ -58,11 +63,13 @@ const Register: React.FC = () => {
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="input-field2"
                     />
                 </div>
-               
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                <button type="submit">Register</button>
+
+                {error && <p className="error-message">{error}</p>}
+                <button type="submit" className="register-button">Register</button>
             </form>
         </div>
     );
