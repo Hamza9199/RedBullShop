@@ -170,6 +170,7 @@ Backend aplikacija je izgrađena koristeći Express.js i Sequelize ORM za rad s 
 ### Baza podataka
 
 Baza podataka je na cloudu, nije potrebno da se posebno spajate.
+Mozete provjeriti .env fajl ako vas interesuje.
 
 ### Admin profil
 
