@@ -167,6 +167,15 @@ Backend aplikacija je izgrađena koristeći Express.js i Sequelize ORM za rad s 
     nodemon server.js
     ```
 
+### Baza podataka
+
+Baza podataka je na cloudu, nije potrebno da se posebno spajate.
+
+### Admin profil
+
+Email : ```hamza.gacic.22@size.ba```
+Sifra: ```hamza```
+
 ## API Dokumentacija
 
 ### Korisnici
