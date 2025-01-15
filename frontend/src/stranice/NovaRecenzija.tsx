@@ -5,15 +5,20 @@ import Footer from "../komponente/Footer"
 import Header from "../komponente/Header"
 import './css/NovaRecenzija.css';
 
+// Komponenta NovaRecenzija omogućava korisnicima da kreiraju ili ažuriraju recenzije proizvoda.
 export const NovaRecenzija = () => {
+    // Dohvatanje tokena iz lokalne memorije.
     const token = JSON.parse(localStorage.getItem("korisnik") || '{}');
 
+    // Provjera da li postoji token.
     if (!token || !token.accessToken) {
         throw new Error('No token found');
     }
 
+    // Dohvatanje ID-a proizvoda iz lokalne memorije.
     const proizvodId = JSON.parse(localStorage.getItem('proizvod') || '{}');
 
+    // Stanje za čuvanje podataka recenzije.
     const [recenzija, setRecenzija] = useState({
         proizvodId: proizvodId || '',
         ocjena: 1,
@@ -21,13 +26,16 @@ export const NovaRecenzija = () => {
         korisnikId: token.id || ''
     });
 
+    // Dohvatanje ID-a recenzije iz URL parametara.
     const { id } = useParams();
     const history = useNavigate();
 
+    // Konfiguracija za autorizaciju sa tokenom.
     const config = {
         headers: { Authorization: `Bearer ${token.accessToken}` }
     };
 
+    // useEffect hook za dohvat recenzije ako postoji ID.
     useEffect(() => {
         const fetchRecenzija = async () => {
             if (id) {
@@ -43,6 +51,7 @@ export const NovaRecenzija = () => {
         fetchRecenzija();
     }, [id]);
 
+    // Funkcija za upravljanje promjenama u input poljima.
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setRecenzija(prevState => ({
@@ -51,6 +60,7 @@ export const NovaRecenzija = () => {
         }));
     };
 
+    // Funkcija za upravljanje slanjem forme.
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {

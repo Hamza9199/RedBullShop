@@ -1,7 +1,14 @@
 import React, { useEffect } from "react";
 import "./css/Footer.css";
 
+/**
+ * Komponenta Footer prikazuje podnožje stranice s kontakt informacijama, 
+ * nasumično odabranom pjesmom s YouTube-a i brzim poveznicama.
+ * 
+ * @component
+ */
 const Footer: React.FC = () => {
+  // Popis YouTube ID-ova pjesama
   const songs = [
     "jG2AciJ3zHY", 
     "jKlL6wvGrbc", 
@@ -11,17 +18,15 @@ const Footer: React.FC = () => {
     "U6n2NcJ7rLc",
     "hSRW0xHalwo",
     "0Y2PPxrBJt8",
-
   ];
 
+  // Stanje za pohranu nasumično odabranog indeksa pjesme
   const [randomIndex, setRandomIndex] = React.useState<number>(0);
 
- 
-
+  // Postavljanje nasumičnog indeksa prilikom prvog renderiranja komponente
   useEffect(() => {
     setRandomIndex(Math.floor(Math.random() * songs.length));
   }, []);
-
 
   return (
     <footer className="footer">
@@ -33,7 +38,7 @@ const Footer: React.FC = () => {
           <p>Telefon: +387999888</p>
         </div>
         <div className="muzikaSection">
-            <iframe
+          <iframe
             key={randomIndex}
             src={`https://www.youtube.com/embed/${songs[randomIndex]}?autoplay=1&loop=1&playlist=${songs[randomIndex]}`}
             width="300"
@@ -41,7 +46,7 @@ const Footer: React.FC = () => {
             frameBorder="0"
             allow="autoplay; encrypted-media"
             title="Background Music"                  
-            ></iframe>
+          ></iframe>
         </div>
         <div className="linkSection">
           <h3>Quick Links</h3>

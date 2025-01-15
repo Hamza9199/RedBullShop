@@ -1,8 +1,12 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Komponenta Adresa prikazuje adresu korisnika i omogućava ažuriranje ili kreiranje nove adrese.
+ * 
+ * @component
+ */
 export const Adresa = () => {
     interface AdresaType {
         id: number;
@@ -15,6 +19,7 @@ export const Adresa = () => {
     const [adresa, setAdresa] = useState<AdresaType | null>(null);
     const history = useNavigate();
 
+    // Dohvati token iz lokalne pohrane
     const token = JSON.parse(localStorage.getItem("korisnik") || '{}');
 
     if (!token || !token.accessToken) {
@@ -26,6 +31,7 @@ export const Adresa = () => {
     };
 
     useEffect(() => {
+        // Funkcija za dohvaćanje adrese
         const fetchAdresa = async () => {
             try {
                 const response = await axios.get('http://localhost:3000/server/adrese', config);
@@ -40,12 +46,14 @@ export const Adresa = () => {
         fetchAdresa();
     }, []);
 
+    // Funkcija za ažuriranje adrese
     const handleUpdate = () => {
         if (adresa) {
             history(`/update-adresa/${adresa.id}`);
         }
     };
 
+    // Funkcija za kreiranje nove adrese
     const handleCreate = () => {
         if (!adresa) {
             history('/nova-adresa');

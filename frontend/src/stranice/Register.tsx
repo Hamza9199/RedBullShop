@@ -3,6 +3,24 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/Register.css';
 
+/**
+ * Komponenta Register predstavlja stranicu za registraciju korisnika.
+ * 
+ * @returns JSX.Element - Stranica za registraciju sa formom za unos korisničkih podataka.
+ * 
+ * Stanja:
+ * - username: string - Korisničko ime.
+ * - email: string - Email adresa.
+ * - password: string - Lozinka.
+ * - error: string - Poruka o grešci prilikom registracije.
+ * 
+ * Funkcije:
+ * - handleSubmit: Asinhrona funkcija za obradu forme za registraciju.
+ * 
+ * @param event - Event objekat za submit forme.
+ * 
+ * @throws Greška prilikom registracije korisnika.
+ */
 const Register: React.FC = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -70,6 +88,10 @@ const Register: React.FC = () => {
 
                 {error && <p className="error-message">{error}</p>}
                 <button type="submit" className="register-button">Register</button>
+
+                <label className="login-link">
+                    Već imaš račun? <a href="/login">Login</a>
+                </label>
             </form>
         </div>
     );

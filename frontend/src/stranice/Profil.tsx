@@ -36,6 +36,25 @@ interface Narudzba {
     }[];
 }
 
+/**
+ * Komponenta Profil predstavlja stranicu korisničkog profila.
+ * 
+ * @returns JSX.Element - Stranica korisničkog profila sa informacijama o korisniku, recenzijama i narudžbama.
+ * 
+ * Stanja:
+ * - korisnik: Korisnik | null - Informacije o korisniku.
+ * - recenzije: Recenzija[] - Lista recenzija korisnika.
+ * - narudzbe: Narudzba[] - Lista narudžbi korisnika.
+ * 
+ * Funkcije:
+ * - fetchKorisnik: Asinhrona funkcija za dohvaćanje informacija o korisniku.
+ * - fetchRecenzije: Asinhrona funkcija za dohvaćanje recenzija korisnika.
+ * - fetchNarudzbe: Asinhrona funkcija za dohvaćanje narudžbi korisnika.
+ * - handleUpdate: Funkcija za navigaciju na stranicu za ažuriranje korisničkog profila.
+ * 
+ * Efekti:
+ * - useEffect: Efekt koji se pokreće pri učitavanju komponente za dohvaćanje podataka o korisniku, recenzijama i narudžbama.
+ */
 export const Profil: React.FC = () => {
     const [korisnik, setKorisnik] = useState<Korisnik | null>(null);
     const [recenzije, setRecenzije] = useState<Recenzija[]>([]);
@@ -73,7 +92,7 @@ export const Profil: React.FC = () => {
 
         const fetchNarudzbe = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/server/n0arudzbe`, config);
+                const response = await axios.get(`http://localhost:3000/server/narudzbe`, config);
                 setNarudzbe(response.data.filter((narudzba: Narudzba) => String(narudzba.korisnikId) === String(token.id) && narudzba.statusNarudzbe !== "Otkazano"&& narudzba.statusNarudzbe !== "Isporučeno"));
             } catch (error) {
                 console.error('Error fetching orders:', error);

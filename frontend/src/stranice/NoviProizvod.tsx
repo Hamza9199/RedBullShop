@@ -7,6 +7,25 @@ import Header from '../komponente/Header';
 import Footer from '../komponente/Footer';
 import './css/NoviProizvod.css';
 
+/**
+ * Komponenta NoviProizvod omogućava kreiranje ili ažuriranje proizvoda.
+ * 
+ * Stanja:
+ * - proizvod: objekt koji sadrži informacije o proizvodu (naziv, opis, kategorija, cijena, slikaURL).
+ * - file: datoteka koja predstavlja sliku proizvoda.
+ * 
+ * Hookovi:
+ * - useParams: dohvaća parametre iz URL-a (koristi se za dohvaćanje ID-a proizvoda).
+ * - useNavigate: omogućava navigaciju kroz historiju.
+ * - useEffect: dohvaća podatke o proizvodu ako postoji ID.
+ * 
+ * Funkcije:
+ * - handleChange: postavlja vrijednosti input polja u stanje proizvoda.
+ * - handleFileChange: postavlja datoteku u stanje file.
+ * - handleSubmit: upravlja slanjem forme, uploadom slike i kreiranjem ili ažuriranjem proizvoda.
+ * 
+ * @returns JSX.Element - Forma za kreiranje ili ažuriranje proizvoda.
+ */
 export const NoviProizvod = () => {
     const [proizvod, setProizvod] = useState({
         naziv: '',

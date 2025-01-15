@@ -21,6 +21,25 @@ interface Narudzba {
     }[];
 }
 
+/**
+ * Komponenta PregledNarudzbe prikazuje detalje narudžbe i omogućava korisniku da otkaže narudžbu.
+ * 
+ * @returns JSX.Element - Stranica sa detaljima narudžbe.
+ * 
+ * Stanja:
+ * - narudzba: Narudzba | null - Detalji narudžbe.
+ * 
+ * Hookovi:
+ * - useParams - Dohvata parametre iz URL-a.
+ * - useNavigate - Omogućava navigaciju između stranica.
+ * - useEffect - Izvršava funkciju prilikom montiranja komponente.
+ * 
+ * Funkcije:
+ * - fetchNarudzba: Asinhrona funkcija za dohvatanje detalja narudžbe sa servera.
+ * - handleDelete: Asinhrona funkcija za otkazivanje narudžbe.
+ * 
+ * @bacanje {Error} Ako token nije pronađen u lokalnom skladištu.
+ */
 const PregledNarudzbe: React.FC = () => {
     const [narudzba, setNarudzba] = useState<Narudzba | null>(null);
     const { id } = useParams<{ id: string }>();

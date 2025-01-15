@@ -21,6 +21,55 @@ interface Narudzba {
     }[];
 }
 
+/**
+ * Komponenta za ažuriranje narudžbe.
+ * 
+ * @returns JSX.Element - Komponenta za ažuriranje narudžbe.
+ * 
+ * @component
+ * 
+ * @example
+ * <UpdateNarudzbe />
+ * 
+ * @remarks
+ * Ova komponenta omogućava korisnicima da ažuriraju postojeću narudžbu.
+ * Koristi React Hook-ove `useState`, `useEffect`, `useParams` i `useNavigate`.
+ * 
+ * @function
+ * @name UpdateNarudzbe
+ * 
+ * @description
+ * Komponenta dohvaća narudžbu sa servera koristeći `axios` i prikazuje formu za ažuriranje.
+ * Ako korisnik nije autentificiran, baca grešku.
+ * 
+ * @typedef {Object} Narudzba
+ * @property {number} ukupnaCijena - Ukupna cijena narudžbe.
+ * @property {string} statusNarudzbe - Trenutni status narudžbe.
+ * @property {string} placanjeMetoda - Metoda plaćanja narudžbe.
+ * @property {string} placanjeStatus - Status plaćanja narudžbe.
+ * 
+ * @hook
+ * @name useState
+ * @description Hook za upravljanje stanjem narudžbe.
+ * 
+ * @hook
+ * @name useEffect
+ * @description Hook za dohvaćanje narudžbe sa servera kada se komponenta montira.
+ * 
+ * @hook
+ * @name useParams
+ * @description Hook za dohvaćanje parametara iz URL-a.
+ * 
+ * @hook
+ * @name useNavigate
+ * @description Hook za navigaciju između stranica.
+ * 
+ * @param {React.ChangeEvent<HTMLInputElement | HTMLSelectElement>} e - Event koji se aktivira kada korisnik promijeni vrijednost u formi.
+ * 
+ * @param {React.FormEvent} e - Event koji se aktivira kada korisnik pošalje formu.
+ * 
+ * @throws {Error} Ako token nije pronađen ili je nevažeći.
+ */
 const UpdateNarudzbe: React.FC = () => {
     const [narudzba, setNarudzba] = useState<Narudzba | null>(null);
     const { id } = useParams<{ id: string }>();

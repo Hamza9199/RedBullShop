@@ -5,6 +5,41 @@ import Header from '../komponente/Header';
 import Footer from '../komponente/Footer';
 import './css/Proizvod.css';
 
+/**
+ * Komponenta Proizvod prikazuje detalje o pojedinačnom proizvodu i njegove recenzije.
+ * 
+ * @returns JSX.Element - Stranica sa detaljima proizvoda i recenzijama.
+ * 
+ * Stanja:
+ * - proizvod: Proizvod | null - Detalji o proizvodu.
+ * - recenzije: Recenzija[] - Lista recenzija za proizvod.
+ * - hasReviewed: boolean - Da li je korisnik već ostavio recenziju.
+ * - isLoading: boolean - Da li se podaci učitavaju.
+ * 
+ * Hookovi:
+ * - useParams: Dohvata parametre iz URL-a.
+ * - useNavigate: Omogućava navigaciju između stranica.
+ * - useEffect: Izvršava se prilikom učitavanja komponente.
+ * 
+ * Funkcije:
+ * - fetchData: Asinhrona funkcija za dohvatanje podataka o proizvodu i recenzijama.
+ * - handleAddToCart: Dodaje proizvod u korpu.
+ * - handleGoToCreateReview: Navigira korisnika na stranicu za kreiranje nove recenzije.
+ * - handleGoToUpdateReview: Navigira korisnika na stranicu za ažuriranje postojeće recenzije.
+ * 
+ * @interface Proizvod - Interfejs za podatke o proizvodu.
+ * @property {number} id - ID proizvoda.
+ * @property {string} naziv - Naziv proizvoda.
+ * @property {string} opis - Opis proizvoda.
+ * @property {number} cijena - Cijena proizvoda.
+ * @property {string} slikaURL - URL slike proizvoda.
+ * 
+ * @interface Recenzija - Interfejs za podatke o recenziji.
+ * @property {number} id - ID recenzije.
+ * @property {number} ocjena - Ocjena proizvoda.
+ * @property {string} komentar - Komentar recenzije.
+ * @property {string} korisnikId - ID korisnika koji je ostavio recenziju.
+ */
 export const Proizvod: React.FC = () => {
     interface Proizvod {
         id: number;

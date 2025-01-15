@@ -11,6 +11,28 @@ interface Korisnik {
     password: string;
 }
 
+/**
+ * Komponenta UpdateKorisnik omogućava ažuriranje korisničkog profila.
+ * 
+ * @returns JSX.Element - Forma za ažuriranje korisničkog profila.
+ * 
+ * Stanja:
+ * - korisnik: Korisnik - Objekt koji sadrži podatke o korisniku (username, email, password).
+ * - loading: boolean - Indikator učitavanja podataka.
+ * - error: string | null - Poruka o grešci prilikom učitavanja ili ažuriranja podataka.
+ * 
+ * Hookovi:
+ * - useNavigate - Hook za navigaciju između stranica.
+ * - useParams - Hook za dohvaćanje parametara iz URL-a.
+ * - useEffect - Hook za izvršavanje sporednih efekata (fetch korisničkih podataka).
+ * 
+ * Funkcije:
+ * - fetchKorisnik: Funkcija za dohvaćanje podataka o korisniku sa servera.
+ * - handleChange: Funkcija za postavljanje vrijednosti input polja u stanju korisnik.
+ * - handleSubmit: Funkcija za slanje ažuriranih podataka o korisniku na server.
+ * 
+ * @throws Error - Ako token za autorizaciju nije pronađen u lokalnoj pohrani.
+ */
 const UpdateKorisnik: React.FC = () => {
     const [korisnik, setKorisnik] = useState<Korisnik>({ username: '', email: '', password: '' });
     const [loading, setLoading] = useState(true);

@@ -2,6 +2,7 @@
 
 .products {
     padding: 20px; 
+    
 }
 
 .home{
@@ -9,8 +10,15 @@
 }
 
 .filter {
-    display: flex;
-    justify-content: center;
+    position: fixed;
+    gap: 5px;
+    z-index: 1;
+    top: 100px;
+    left: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    
 }
 
 .search-bar {

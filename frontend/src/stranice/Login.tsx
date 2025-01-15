@@ -4,6 +4,24 @@ import { AuthContext } from "../context/authContext/AuthContext";
 import { useNavigate } from 'react-router-dom';
 import './css/Login.css';
 
+/**
+ * Komponenta Login omogućava korisnicima da se prijave u aplikaciju.
+ * 
+ * @returns JSX.Element - Forma za prijavu korisnika.
+ * 
+ * Stanja:
+ * - email: string - Email adresa korisnika.
+ * - password: string - Lozinka korisnika.
+ * - error: string - Poruka o grešci prilikom prijave.
+ * 
+ * Funkcije:
+ * - handleSubmit: Funkcija za obradu forme prilikom prijave.
+ * 
+ * @param event - Promjena u input polju za email ili lozinku.
+ * 
+ * @example
+ * <Login />
+ */
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -54,6 +72,9 @@ const Login: React.FC = () => {
                 <button type="submit" className="login-button">
                     Login
                 </button>
+                <label className="register-link">
+                    Nemaš račun? <a href="/register">Registriraj se</a>
+                </label>
             </form>
         </div>
     );

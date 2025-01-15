@@ -5,36 +5,41 @@ import Footer from '../komponente/Footer';
 import './css/Dashboard.css';
 import { useNavigate } from 'react-router-dom';
 
+// Definicija interfejsa za korisnika
 interface Korisnik {
     id: string;
     username: string;
 }
 
+// Definicija interfejsa za proizvod
 interface Proizvod {
     id: string;
     naziv: string;
     slikaURL: string;
 }
 
+// Definicija interfejsa za narudžbu
 interface Narudzba {
     id: string;
     korisnikId: string;
     adresaId: string;
     ukupnaCijena: number;
     statusNarudzbe: string;
-    placanjeMetoda  : string;
-    placanjeStatus  : string;
+    placanjeMetoda: string;
+    placanjeStatus: string;
     proizvodi: {
         proizvodId: string;
         kolicina: number;
     }[];
 }
 
+// Definicija interfejsa za recenziju
 interface Recenzija {
     id: string;
     komentar: string;
 }
 
+// Definicija interfejsa za adresu
 interface Adresa {
     id: string;
     ulica: string;
@@ -42,14 +47,15 @@ interface Adresa {
 }
 
 const Dashboard: React.FC = () => {
-    const [korisnici, setKorisnici] = useState<Korisnik[]>([]);
-    const [proizvodi, setProizvodi] = useState<Proizvod[]>([]);
-    const [narudzbe, setNarudzbe] = useState<Narudzba[]>([]);
-    const [recenzije, setRecenzije] = useState<Recenzija[]>([]);
-    const [adrese, setAdrese] = useState<Adresa[]>([]);
-    const [selectedTab, setSelectedTab] = useState<string>('korisnici');
-    const navigate = useNavigate();
+    const [korisnici, setKorisnici] = useState<Korisnik[]>([]); // Stanje za korisnike
+    const [proizvodi, setProizvodi] = useState<Proizvod[]>([]); // Stanje za proizvode
+    const [narudzbe, setNarudzbe] = useState<Narudzba[]>([]); // Stanje za narudžbe
+    const [recenzije, setRecenzije] = useState<Recenzija[]>([]); // Stanje za recenzije
+    const [adrese, setAdrese] = useState<Adresa[]>([]); // Stanje za adrese
+    const [selectedTab, setSelectedTab] = useState<string>('korisnici'); // Stanje za odabranu karticu
+    const navigate = useNavigate(); // Hook za navigaciju
 
+    // useEffect hook za dohvaćanje podataka
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -79,7 +85,7 @@ const Dashboard: React.FC = () => {
         fetchData();
     }, []);
 
-
+    // Funkcija za brisanje korisnika
     const handleDeleteKorisnika = async (id: string) => {
         try {
             const token = JSON.parse(localStorage.getItem("korisnik") || '{}');
@@ -94,6 +100,7 @@ const Dashboard: React.FC = () => {
         }
     };
 
+    // Funkcija za brisanje proizvoda
     const handleDeleteProizvoda = async (id: string) => {
         try {
             const token = JSON.parse(localStorage.getItem("korisnik") || '{}');
@@ -108,6 +115,7 @@ const Dashboard: React.FC = () => {
         }
     };
 
+    // Funkcija za brisanje narudžbe
     const handleDeleteNarudzbe = async (id: string) => {
         try {
             const token = JSON.parse(localStorage.getItem("korisnik") || '{}');
@@ -122,6 +130,7 @@ const Dashboard: React.FC = () => {
         }
     };
 
+    // Funkcija za brisanje recenzije
     const handleDeleteRecenzije = async (id: string) => {
         try {
             const token = JSON.parse(localStorage.getItem("korisnik") || '{}');
@@ -136,6 +145,7 @@ const Dashboard: React.FC = () => {
         }
     };
 
+    // Funkcija za brisanje adrese
     const handleDeleteAdrese = async (id: string) => {
         try {
             const token = JSON.parse(localStorage.getItem("korisnik") || '{}');
@@ -150,22 +160,27 @@ const Dashboard: React.FC = () => {
         }
     };
 
+    // Funkcija za ažuriranje proizvoda
     const handleUpdateProizvoda = async (id: string) => {
         navigate(`/update-proizvod/${id}`);
     };
 
+    // Funkcija za ažuriranje narudžbe
     const handleUpdateNarudzbe = async (id: string) => {
         navigate(`/azuriraj-narudzbu/${id}`);
     };
 
+    // Funkcija za ažuriranje recenzije
     const handleUpdateRecenzije = async (id: string) => {
         navigate(`/update-recenzija/${id}`);
     };
 
+    // Funkcija za dodavanje novog proizvoda
     const handleDodajProizvod = async () => {
         navigate(`/novi-proizvod`);
     };
 
+    // Funkcija za renderiranje sadržaja na temelju odabrane kartice
     const renderContent = () => {
         switch (selectedTab) {
             case 'korisnici':
@@ -200,7 +215,6 @@ const Dashboard: React.FC = () => {
                                 <th>Slika</th>
                                 <th>Naziv</th>
                                 <th>Metode</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -212,7 +226,6 @@ const Dashboard: React.FC = () => {
                                     <td>
                                         <button onClick={() => handleUpdateProizvoda(proizvod.id)}>Uredi</button>
                                         <button onClick={() => handleDeleteProizvoda(proizvod.id)}>Izbriši</button>
-
                                     </td>
                                 </tr>
                             ))}
@@ -233,8 +246,6 @@ const Dashboard: React.FC = () => {
                                 <th>Plaćanje status</th>
                                 <th>Proizvodi</th>
                                 <th>Metode</th>
-
-
                             </tr>
                         </thead>
                         <tbody>
@@ -256,9 +267,7 @@ const Dashboard: React.FC = () => {
                                     </td>
                                     <td>
                                         <button onClick={() => handleUpdateNarudzbe(narudzba.id)}>Uredi</button>
-
                                         <button onClick={() => handleDeleteNarudzbe(narudzba.id)}>Izbriši</button>
-
                                     </td>
                                 </tr>
                             ))}
@@ -273,7 +282,6 @@ const Dashboard: React.FC = () => {
                                 <th>ID</th>
                                 <th>Komentar</th>
                                 <th>Metode</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -283,9 +291,7 @@ const Dashboard: React.FC = () => {
                                     <td>{recenzija.komentar}</td>
                                     <td>
                                         <button onClick={() => handleUpdateRecenzije(recenzija.id)}>Uredi</button>
-
                                         <button onClick={() => handleDeleteRecenzije(recenzija.id)}>Izbriši</button>
-
                                     </td>
                                 </tr>
                             ))}
@@ -301,7 +307,6 @@ const Dashboard: React.FC = () => {
                                 <th>Ulica</th>
                                 <th>Grad</th>
                                 <th>Metode</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -325,32 +330,29 @@ const Dashboard: React.FC = () => {
 
     return (
         <>
-        <Header />
-        <div className="dashboard-container">
-          
-            <div className="dashboard-content">
-                <aside className="sidebar">
-                    <nav>
-                        <ul>
-                            <li><button onClick={() => setSelectedTab('korisnici')}>Korisnici</button></li>
-                            <li><button onClick={() => setSelectedTab('proizvodi')}>Proizvodi</button></li>
-                            <li><button onClick={() => setSelectedTab('narudzbe')}>Narudžbe</button></li>
-                            <li><button onClick={() => setSelectedTab('recenzije')}>Recenzije</button></li>
-                            <li><button onClick={() => setSelectedTab('adrese')}>Adrese</button></li>
-                        </ul>
-                    </nav>
-                </aside>
+            <Header />
+            <div className="dashboard-container">
+                <div className="dashboard-content">
+                    <aside className="sidebar">
+                        <nav>
+                            <ul>
+                                <li><button onClick={() => setSelectedTab('korisnici')}>Korisnici</button></li>
+                                <li><button onClick={() => setSelectedTab('proizvodi')}>Proizvodi</button></li>
+                                <li><button onClick={() => setSelectedTab('narudzbe')}>Narudžbe</button></li>
+                                <li><button onClick={() => setSelectedTab('recenzije')}>Recenzije</button></li>
+                                <li><button onClick={() => setSelectedTab('adrese')}>Adrese</button></li>
+                            </ul>
+                        </nav>
+                    </aside>
 
-                <main className="main-content">
-                    <h1>Dashboard</h1>
-                    <button  onClick={() => handleDodajProizvod()}>Dodaj</button>
-                    {renderContent()}
-                </main>
+                    <main className="main-content">
+                        <h1>Dashboard</h1>
+                        <button className='dodaj-dugme' onClick={() => handleDodajProizvod()}>Dodaj</button>
+                        {renderContent()}
+                    </main>
+                </div>
             </div>
-            
-        </div>
-        
-        <Footer />
+            <Footer />
         </>
     );
 };

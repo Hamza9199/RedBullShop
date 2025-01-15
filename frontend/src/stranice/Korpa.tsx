@@ -17,6 +17,27 @@ interface Korpa {
     ukupnaCijena: number;
 }
 
+/**
+ * Komponenta Korpa predstavlja stranicu sa korpom proizvoda.
+ * 
+ * @returns JSX.Element - Stranica sa korpom proizvoda.
+ * 
+ * Stanja:
+ * - korpa: Korpa | null - Podaci o korpi proizvoda.
+ * - isLoading: boolean - Indikator učitavanja podataka.
+ * 
+ * Funkcije:
+ * - fetchKorpa: Asinhrona funkcija za dohvaćanje podataka o korpi sa servera.
+ * - handleProceedToOrder: Funkcija za navigaciju na stranicu za narudžbu.
+ * 
+ * Efekti:
+ * - useEffect: Efekat koji se izvršava prilikom montiranja komponente i dohvaća podatke o korpi.
+ * 
+ * Prikaz:
+ * - Ako se podaci učitavaju, prikazuje se poruka "Učitavanje...".
+ * - Ako je korpa prazna, prikazuje se poruka "Vaša korpa je prazna.".
+ * - Ako korpa sadrži proizvode, prikazuje se lista proizvoda sa nazivom, cijenom i količinom, te ukupna cijena i dugme za narudžbu.
+ */
 export const Korpa: React.FC = () => {
     const [korpa, setKorpa] = useState<Korpa | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);

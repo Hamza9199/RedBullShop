@@ -6,20 +6,24 @@ import Header from "../komponente/Header";
 import './css/Recenzija.css';
 
 export const Recenzija = () => {
+    // Definicija interfejsa za recenziju
     interface Recenzija {
         ocjena: number;
         komentar: string;
         korisnikId: string;
     }
 
+    // Stanje za čuvanje recenzije
     const [recenzija, setRecenzija] = useState<Recenzija | null>(null);
     const { id } = useParams();
     const navigate = useNavigate();
 
+    // Dohvatanje tokena iz lokalne memorije
     const token = JSON.parse(localStorage.getItem("korisnik") || '{}');
     const userId = token?.id;
     const isOwner = userId && String(recenzija?.korisnikId) === String(userId);
 
+    // useEffect hook za dohvatanje recenzije sa servera
     useEffect(() => {
         const fetchRecenzija = async () => {
             try {
@@ -33,6 +37,7 @@ export const Recenzija = () => {
         fetchRecenzija();
     }, [id]);
 
+    // Funkcija za brisanje recenzije
     const handleDelete = async () => {
         if (!token?.accessToken) {
             console.error('No token found');

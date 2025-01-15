@@ -25,6 +25,38 @@ interface AdresaType {
     drzava: string;
 }
 
+/**
+ * Komponenta Narudzba predstavlja stranicu za pregled i potvrdu narudžbe.
+ * 
+ * @returns JSX.Element - Stranica za narudžbu.
+ * 
+ * @component
+ * 
+ * @example
+ * return <Narudzba />
+ * 
+ * @remarks
+ * Ova komponenta koristi React hookove `useState` i `useEffect` za upravljanje stanjem i efektima.
+ * Također koristi `axios` za HTTP zahtjeve prema serveru.
+ * 
+ * @file /c:/Users/User/Desktop/priv/RedBullShop/frontend/src/stranice/Narudzba.tsx
+ * 
+ * @typedef {Object} Korpa - Tip za korpu.
+ * @typedef {Object} AdresaType - Tip za adresu.
+ * 
+ * @property {Korpa | null} korpa - Stanje koje čuva podatke o korpi.
+ * @property {boolean} isLoading - Stanje koje označava da li se podaci učitavaju.
+ * @property {AdresaType | null} adresa - Stanje koje čuva podatke o adresi.
+ * @property {string} placanje - Stanje koje čuva odabranu metodu plaćanja.
+ * @property {Function} navigate - Funkcija za navigaciju između stranica.
+ * @property {Object} token - Token za autentifikaciju korisnika.
+ * 
+ * @function fetchKorpa - Asinhrona funkcija za dohvaćanje podataka o korpi.
+ * @function fetchAdresa - Asinhrona funkcija za dohvaćanje podataka o adresi.
+ * @function handleOrderSubmit - Asinhrona funkcija za slanje narudžbe.
+ * 
+ * @returns {JSX.Element} - JSX element koji prikazuje stranicu za narudžbu.
+ */
 const Narudzba: React.FC = () => {
     const [korpa, setKorpa] = useState<Korpa | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);

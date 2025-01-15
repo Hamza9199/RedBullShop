@@ -6,6 +6,26 @@ import Footer from "../komponente/Footer"
 import Header from "../komponente/Header"
 import './css/NovaAdresa.css';
 
+/**
+ * Komponenta NovaAdresa omogućava korisnicima da kreiraju ili ažuriraju adresu.
+ * 
+ * @returns JSX.Element - Forma za unos ili ažuriranje adrese.
+ * 
+ * Stanja:
+ * - adresa: objekt - Objekt koji sadrži podatke o adresi (ulica, grad, poštanski broj, država).
+ * 
+ * Hookovi:
+ * - useParams: Dohvata parametre iz URL-a, koristi se za dobijanje ID-a adrese.
+ * - useNavigate: Omogućava navigaciju kroz historiju.
+ * - useEffect: Izvršava se pri mountanju komponente i kada se ID promijeni, koristi se za dohvatanje podataka o adresi.
+ * 
+ * Funkcije:
+ * - fetchAdresa: Asinhrona funkcija koja dohvata podatke o adresi sa servera ako postoji ID.
+ * - handleChange: Funkcija za postavljanje vrijednosti input polja u stanje adresa.
+ * - handleSubmit: Asinhrona funkcija koja šalje podatke o adresi na server za kreiranje ili ažuriranje.
+ * 
+ * @throws Error - Ako token nije pronađen u localStorage.
+ */
 export const NovaAdresa = () => {
     const [adresa, setAdresa] = useState({
         ulica: '',
